@@ -589,3 +589,93 @@ button.mat-raised-button.mat-primary {
 #app_container .mat-form-field-required-marker {
   color: var(--p21-danger) !important;
 }
+
+/* ---------- Corrections found by walking the signed-in screens ---------- */
+
+/* The nav rail looked washed because Material leaves .mat-button-focus-overlay
+   painted on items that have been clicked, and the global overlay tint was
+   applying at 8% teal to each of them. The rail is a list of links, not a set
+   of toggles, so no persistent fill belongs there. */
+#app_container #sidenav_left .mat-button-focus-overlay,
+#app_container #sidenav_left .mat-ripple-element {
+  background: transparent !important;
+  opacity: 0 !important;
+}
+
+/* Flat rail. A second surface next to the content read as a panel rather than
+   as navigation. */
+#app_container #sidenav_left,
+#app_container mat-sidenav#sidenav_left {
+  background: var(--p21-surface-body) !important;
+}
+
+/* Destructive actions use the accent, not the danger red. Nothing in this
+   portal is irreversible enough to earn red, and teal text inside a red
+   outline read as two signals disagreeing. */
+#app_container button.mat-warn,
+#app_container .mat-button.mat-warn,
+#app_container .mat-button.mat-warn:not(.mat-raised-button) {
+  background: transparent !important;
+  color: var(--p21-action) !important;
+  border: 1px solid var(--p21-action) !important;
+  border-radius: var(--p21-radius-full) !important;
+}
+
+/* License key cell. Freemius renders the key in a white chip with its own copy
+   control, which was the brightest object on the page. */
+#app_container .mat-column-license_key > div,
+#app_container .mat-cell.mat-column-license_key > div {
+  background: var(--p21-surface-subtle) !important;
+  border: 1px solid var(--p21-border) !important;
+  border-radius: var(--p21-radius-md) !important;
+}
+#app_container .mat-column-license_key input,
+#app_container .mat-column-license_key code {
+  background: transparent !important;
+  color: var(--p21-ink) !important;
+  font-family: var(--p21-font-mono) !important;
+  border: 0 !important;
+}
+#app_container .mat-column-license_key button,
+#app_container .mat-column-license_key .mat-icon-button {
+  background: transparent !important;
+  color: var(--p21-action) !important;
+}
+
+/* FAQ accordion. Material separates panels with a box-shadow rather than a
+   border, so setting a border colour alone left the light seams in place. */
+#app_container mat-expansion-panel,
+#app_container .mat-expansion-panel {
+  background: var(--p21-surface-subtle) !important;
+  border: 1px solid var(--p21-border) !important;
+  border-radius: var(--p21-radius-md) !important;
+  box-shadow: none !important;
+}
+#app_container .mat-expansion-panel-header {
+  background: transparent !important;
+  color: var(--p21-ink) !important;
+}
+#app_container .mat-expansion-panel-header:hover,
+#app_container .mat-expansion-panel-header.mat-expanded {
+  background: var(--p21-surface-body) !important;
+}
+#app_container .mat-expansion-panel-header-title,
+#app_container .mat-panel-title {
+  color: var(--p21-ink) !important;
+}
+#app_container .mat-expansion-panel-body,
+#app_container .mat-expansion-panel-body p {
+  color: var(--p21-ink-muted) !important;
+}
+#app_container .mat-expansion-indicator::after {
+  color: var(--p21-ink-muted) !important;
+  border-color: var(--p21-ink-muted) !important;
+}
+
+/* Every remaining rule and separator. */
+#app_container hr,
+#app_container .mat-divider,
+#app_container mat-divider {
+  border-color: var(--p21-border) !important;
+  background-color: var(--p21-border) !important;
+}
