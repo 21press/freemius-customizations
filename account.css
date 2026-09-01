@@ -544,3 +544,48 @@ button.mat-raised-button.mat-primary {
 .mat-option:hover {
   background: var(--p21-surface-body) !important;
 }
+
+/* Buttons and field labels on the signed-in screens.
+   These repeat rules from the sections above with the #app_container prefix,
+   because Freemius sets them again at ID specificity once the app shell is
+   rendered. Without the prefix the login screen is styled and the portal is
+   not, which is the exact bug this block fixes. */
+
+#app_container .mat-raised-button,
+#app_container .mat-flat-button,
+#app_container .mat-raised-button.mat-primary,
+#app_container .mat-flat-button.mat-primary,
+#app_container button.md-raised.mat-primary {
+  background-color: var(--p21-action) !important;
+  color: var(--p21-on-action) !important;
+  border-radius: var(--p21-radius-full) !important;
+  box-shadow: none !important;
+}
+#app_container .mat-raised-button:hover,
+#app_container .mat-flat-button:hover {
+  background-color: var(--p21-action-hover) !important;
+}
+
+/* Text buttons sit on the ground, not on a light chip. :not() keeps the filled
+   variants out, since they carry .mat-button as well. */
+#app_container .mat-button:not(.mat-raised-button):not(.mat-flat-button) {
+  background: transparent !important;
+  background-color: transparent !important;
+  color: var(--p21-action) !important;
+}
+
+/* Floating labels render near-black by default, which disappears on the dark
+   ground once a field has a value. */
+#app_container .mat-form-field-label,
+#app_container .mat-input-placeholder,
+#app_container .mat-form-field-placeholder,
+#app_container .mat-hint,
+#app_container .mat-form-field-hint-wrapper {
+  color: var(--p21-ink-muted) !important;
+}
+#app_container .mat-focused .mat-form-field-label {
+  color: var(--p21-action) !important;
+}
+#app_container .mat-form-field-required-marker {
+  color: var(--p21-danger) !important;
+}
