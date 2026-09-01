@@ -768,3 +768,49 @@ mat-sidenav-content#main_content_container,
 .login #footer a.fs-logo {
   filter: brightness(0) invert(1) !important;
 }
+
+/* ---------- Login form ----------
+   Freemius styles this form from selectors deep enough that the usual prefixes
+   lose. Probed on the live page: `#form` lost, `#form_container #form` lost,
+   `#login #form_container #form` won. Three IDs is the minimum here, so the
+   chain below is not defensive padding. */
+
+#login #form_container #form .mat-form-field-required-marker,
+#login #form_container #form .mat-placeholder-required,
+#app_container #login #form .mat-form-field-required-marker {
+  color: var(--p21-danger) !important;
+}
+
+/* The envelope and padlock prefixes repeat what the labels already say. */
+#login #form_container #form .mat-form-field-prefix,
+#login #form_container #form .mat-input-prefix,
+#app_container #login #form .mat-form-field-prefix {
+  display: none !important;
+}
+
+/* An invalid field is signalled by the rule under it. */
+#login #form_container #form .mat-form-field-invalid .mat-form-field-underline,
+#login #form_container #form .mat-form-field-invalid .mat-input-underline,
+#app_container .mat-form-field-invalid .mat-form-field-underline {
+  background-color: var(--p21-danger) !important;
+}
+#login #form_container #form .mat-error,
+#app_container .mat-error {
+  color: var(--p21-danger) !important;
+}
+
+/* ---------- Focus ----------
+   The global focus ring is right for buttons and links, but on a text input it
+   drew a box around a field that already shows focus through its underline.
+   The ring is removed for inputs only; everything else keeps it. */
+
+#app_container input:focus,
+#app_container input:focus-visible,
+#app_container .mat-input-element:focus,
+#app_container .mat-input-element:focus-visible,
+#login input:focus,
+#login input:focus-visible {
+  outline: none !important;
+  box-shadow: none !important;
+  border-color: transparent !important;
+}
