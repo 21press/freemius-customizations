@@ -738,3 +738,33 @@ mat-sidenav-content#main_content_container,
   border-radius: 0 !important;
   padding: 0 !important;
 }
+
+/* ---------- Required markers ----------
+   Freemius renders the asterisk in its brand magenta (#E62A97). The login form
+   is not inside #app_container, so the signed-in rule never reached it, and the
+   marker stayed magenta on the login card. Both scopes are covered here. */
+
+#app_container .mat-form-field-required-marker,
+#main_content_container .mat-form-field-required-marker,
+#form_container .mat-form-field-required-marker,
+#form .mat-form-field-required-marker,
+.login .mat-form-field-required-marker,
+#app_container .mat-placeholder-required,
+#main_content_container .mat-placeholder-required,
+#form_container .mat-placeholder-required {
+  color: var(--p21-danger) !important;
+}
+
+/* ---------- Freemius wordmark ----------
+   The footer attribution is a data-URI SVG background on a.fs-logo, carrying
+   its own brand colours (#6753FF, #902AF5, #E62A97 and a near-black wordmark).
+   Because it is a background image rather than inline SVG, fill cannot reach
+   it; brightness(0) flattens it and invert(1) renders it white, so it sits
+   with the muted footer text instead of adding a third accent. */
+
+#footer a.fs-logo,
+#app_container #footer a.fs-logo,
+#main_content_container #footer a.fs-logo,
+.login #footer a.fs-logo {
+  filter: brightness(0) invert(1) !important;
+}
