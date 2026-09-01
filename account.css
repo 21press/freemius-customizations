@@ -155,6 +155,8 @@ a:not([class]):hover {
    Cards, panels, tables and dialogs on the signed-in screens. Written against
    Material primitives because the authenticated markup was not inspectable. */
 
+#form_container,
+.login__box,
 .mat-card,
 .mat-expansion-panel,
 .mat-dialog-container,
@@ -224,7 +226,9 @@ a:not([class]):hover {
 }
 
 .mat-error,
-.mat-form-field-invalid .mat-form-field-label {
+.mat-form-field-invalid .mat-form-field-label,
+.mat-form-field-required-marker,
+.mat-placeholder-required {
   color: var(--p21-danger) !important;
 }
 
@@ -233,8 +237,10 @@ a:not([class]):hover {
 
 .mat-raised-button,
 .mat-flat-button,
-button.mat-primary {
-  background: var(--p21-action) !important;
+.mat-raised-button.mat-primary,
+.mat-flat-button.mat-primary,
+button.mat-raised-button.mat-primary {
+  background-color: var(--p21-action) !important;
   color: var(--p21-on-action) !important;
   font-family: var(--p21-font-text) !important;
   font-weight: 600 !important;
@@ -245,8 +251,9 @@ button.mat-primary {
 }
 .mat-raised-button:hover,
 .mat-flat-button:hover,
-button.mat-primary:hover {
-  background: var(--p21-action-hover) !important;
+.mat-raised-button.mat-primary:hover,
+.mat-flat-button.mat-primary:hover {
+  background-color: var(--p21-action-hover) !important;
   transform: translateY(-1px);
 }
 
@@ -259,6 +266,21 @@ button.mat-primary:hover {
 .mat-icon-button,
 .mat-icon {
   color: var(--p21-ink-muted) !important;
+}
+
+/* Freemius icons are inline SVG painted with fill, not stroke, so colour alone
+   does not reach them. */
+.fs-svg,
+.fs-icon svg {
+  fill: currentColor !important;
+}
+
+/* An icon inside a filled button belongs to the button, not to the muted ink. */
+.mat-raised-button .mat-icon,
+.mat-flat-button .mat-icon,
+.mat-raised-button .fs-svg,
+.mat-flat-button .fs-svg {
+  color: inherit !important;
 }
 .mat-icon-button:hover .mat-icon {
   color: var(--p21-action) !important;
