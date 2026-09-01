@@ -443,8 +443,7 @@ button.mat-raised-button.mat-primary {
 }
 
 /* Section headings inside cards ship a light band. */
-#app_container .content-card h2,
-#app_container h2 {
+#app_container .content-card h2 {
   background: var(--p21-surface-subtle) !important;
   color: var(--p21-ink) !important;
   border: 1px solid var(--p21-border) !important;
@@ -724,4 +723,18 @@ mat-sidenav-content#main_content_container,
   background: var(--p21-surface-subtle) !important;
   border-left-color: var(--p21-action) !important;
   color: var(--p21-ink-muted) !important;
+}
+
+
+/* The section-band treatment is scoped to cards only. A bare `#app_container h2`
+   also caught the login form heading, which then rendered inside a bordered
+   box. Headings outside a card stay plain. */
+#form h2,
+#form header h2,
+#app_container #form h2,
+.login h2 {
+  background: transparent !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  padding: 0 !important;
 }
