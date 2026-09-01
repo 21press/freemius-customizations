@@ -679,3 +679,33 @@ button.mat-raised-button.mat-primary {
   border-color: var(--p21-border) !important;
   background-color: var(--p21-border) !important;
 }
+
+/* ---------- Footer band ----------
+   A single-ID `#footer` rule loses to Freemius, so the footer inherited
+   whatever sat behind it. In the signed-in view that parent is already dark
+   and the band looked fine; signed out, the parent is white and the band read
+   as a white stripe under the card. Both containers are matched by ID here so
+   the rule wins in either view. */
+
+#app_container #footer,
+#main_content_container #footer,
+mat-sidenav-content#main_content_container > footer#footer {
+  background: var(--p21-surface-body) !important;
+  border-top: 1px solid var(--p21-border) !important;
+  color: var(--p21-ink-muted) !important;
+}
+#app_container #footer a,
+#main_content_container #footer a {
+  color: var(--p21-ink-muted) !important;
+}
+#app_container #footer a:hover,
+#main_content_container #footer a:hover {
+  color: var(--p21-action) !important;
+}
+
+/* The signed-out shell. #main_content_container is white before login, which
+   is what the footer was sitting on. */
+mat-sidenav-content#main_content_container,
+#app_container #main_content_container {
+  background: var(--p21-surface-body) !important;
+}
