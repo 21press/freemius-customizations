@@ -10,7 +10,7 @@ portal; you attach the URLs in the Freemius developer dashboard.
 ## The URL to use
 
 ```
-https://cdn.jsdelivr.net/gh/21press/freemius-customizations@v4/account.css
+https://cdn.jsdelivr.net/gh/21press/freemius-customizations@v7/account.css
 ```
 
 **Use a tag, never `@main`.** A tagged URL is immutable, so jsDelivr caches it
@@ -23,9 +23,9 @@ tag exists.
 2. Create the next tag on that commit:
    ```
    gh api repos/21press/freemius-customizations/git/refs -X POST \
-     -f ref="refs/tags/v5" -f sha="$(gh api repos/21press/freemius-customizations/commits -q '.[0].sha')"
+     -f ref="refs/tags/v8" -f sha="$(gh api repos/21press/freemius-customizations/commits -q '.[0].sha')"
    ```
-3. Update the URL in the Freemius dashboard to `@v5`. One character.
+3. Update the URL in the Freemius dashboard to `@v8`. One character.
 
 That step 3 is manual and cannot be automated from here; the setting lives in the
 Freemius developer dashboard.
@@ -49,7 +49,7 @@ cause is almost always a stale file rather than broken CSS. Compare sizes:
 
 ```
 gh api repos/21press/freemius-customizations/contents/account.css -q .size
-curl -s "https://cdn.jsdelivr.net/gh/21press/freemius-customizations@v4/account.css" | wc -c
+curl -s "https://cdn.jsdelivr.net/gh/21press/freemius-customizations@v7/account.css" | wc -c
 ```
 
 ## How to work on this file
@@ -151,6 +151,14 @@ not, the fight is specificity, not correctness.
   a tinted overlay this makes a navigation rail look blotchy, so it is zeroed
   inside `#sidenav_left`.
 - The license key renders in its own chip at `.mat-column-license_key > div`.
+- Icons in table controls sit **two elements below** the button
+  (`button > span > fs-icon > svg.fs-svg`), so `fill: currentColor` set on the
+  button never reaches them. Set display, visibility, opacity, size and colour
+  on the icon and the svg explicitly. Some Freemius icons are filled paths and
+  some are stroked outlines, so forcing `fill` on a stroked icon renders a solid
+  blob; keep `stroke` on any path that declares one.
+- Muted ink on a dark control reads as invisible rather than subtle. Icons that
+  sit inside a filled or circular control need full ink, not `ink-muted`.
 - The FAQ column divider is a `border-right` on `.faq--accordion > div > div`,
   shipped at `rgb(240,240,250)`.
 - Material separates FAQ panels with a `box-shadow`, not a border, so setting a
@@ -184,5 +192,5 @@ does not verify the other.
 header.
 
 ```
-https://cdn.jsdelivr.net/gh/21press/freemius-customizations@v4/account.js
+https://cdn.jsdelivr.net/gh/21press/freemius-customizations@v7/account.js
 ```
