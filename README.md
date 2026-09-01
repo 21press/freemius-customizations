@@ -10,7 +10,7 @@ portal; you attach the URLs in the Freemius developer dashboard.
 ## The URL to use
 
 ```
-https://cdn.jsdelivr.net/gh/21press/freemius-customizations@v3/account.css
+https://cdn.jsdelivr.net/gh/21press/freemius-customizations@v4/account.css
 ```
 
 **Use a tag, never `@main`.** A tagged URL is immutable, so jsDelivr caches it
@@ -23,9 +23,9 @@ tag exists.
 2. Create the next tag on that commit:
    ```
    gh api repos/21press/freemius-customizations/git/refs -X POST \
-     -f ref="refs/tags/v4" -f sha="$(gh api repos/21press/freemius-customizations/commits -q '.[0].sha')"
+     -f ref="refs/tags/v5" -f sha="$(gh api repos/21press/freemius-customizations/commits -q '.[0].sha')"
    ```
-3. Update the URL in the Freemius dashboard to `@v4`. One character.
+3. Update the URL in the Freemius dashboard to `@v5`. One character.
 
 That step 3 is manual and cannot be automated from here; the setting lives in the
 Freemius developer dashboard.
@@ -49,7 +49,7 @@ cause is almost always a stale file rather than broken CSS. Compare sizes:
 
 ```
 gh api repos/21press/freemius-customizations/contents/account.css -q .size
-curl -s "https://cdn.jsdelivr.net/gh/21press/freemius-customizations@v3/account.css" | wc -c
+curl -s "https://cdn.jsdelivr.net/gh/21press/freemius-customizations@v4/account.css" | wc -c
 ```
 
 ## How to work on this file
@@ -115,6 +115,32 @@ Practical consequence: a rule that works on the **login** view often fails on th
 shell renders. Several rules in `account.css` are deliberately written twice, once
 plain and once prefixed. That duplication is intentional.
 
+
+### Depth of Freemius' own selectors
+
+Some of their rules are deep enough that two IDs still lose. The login form is
+the worst case, probed live:
+
+| Selector | Result |
+|---|---|
+| `#form .mat-form-field-required-marker` | lost |
+| `#form_container #form .mat-form-field-required-marker` | lost |
+| `#login #form_container #form .mat-form-field-required-marker` | won |
+
+Probe before assuming. Inject a candidate rule, read the computed value back,
+and remove it:
+
+```js
+const probe = (el, rule) => {
+  const s = document.createElement('style');
+  s.textContent = rule; document.head.appendChild(s);
+  const v = getComputedStyle(el).color; s.remove(); return v;
+};
+```
+
+If an inline style with `!important` changes it but your stylesheet rule does
+not, the fight is specificity, not correctness.
+
 ## Freemius quirks worth knowing
 
 - The login card is `div#form_container` with **no class at all**. Material card
@@ -158,5 +184,5 @@ does not verify the other.
 header.
 
 ```
-https://cdn.jsdelivr.net/gh/21press/freemius-customizations@v3/account.js
+https://cdn.jsdelivr.net/gh/21press/freemius-customizations@v4/account.js
 ```
