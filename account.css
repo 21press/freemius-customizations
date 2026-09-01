@@ -3,5 +3,329 @@
  *
  * Public URL (attach this in Freemius):
  * https://cdn.jsdelivr.net/gh/21press/freemius-customizations@main/account.css
+ *
+ * The portal is embedded on https://21press.com/account/ as a cross-origin
+ * iframe from customers.freemius.com, so none of the site's own CSS reaches it.
+ * This file is the only way to style it, which is why the design tokens below
+ * are duplicated rather than referenced. Keep them in step with tokens.json.
+ *
+ * The portal is an Angular Material application. Most of what follows overrides
+ * Material theme rules, which are specific and shipped after this file, so the
+ * colour and background declarations carry !important deliberately.
+ *
+ * VERIFIED against the signed-out view only. The authenticated screens
+ * (licenses, subscriptions, invoices, downloads) could not be inspected without
+ * signing in, so those rules target Material primitives defensively and should
+ * be checked against a real account.
  */
 
+/* ---------- Fonts ----------
+   Served from the site's own Font Manager. Confirmed to load cross-origin from
+   customers.freemius.com; if that ever changes, the stacks fall back to system
+   sans and only the type changes, not the layout. */
+
+@font-face {
+  font-family: "Archivo";
+  src: url("https://21press.com/wp-content/uploads/21press-delta/fonts/archivo/archivo-400-normal.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Archivo";
+  src: url("https://21press.com/wp-content/uploads/21press-delta/fonts/archivo/archivo-500-normal.woff2") format("woff2");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Archivo";
+  src: url("https://21press.com/wp-content/uploads/21press-delta/fonts/archivo/archivo-600-normal.woff2") format("woff2");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Space Grotesk";
+  src: url("https://21press.com/wp-content/uploads/21press-delta/fonts/space-grotesk/space-grotesk-500-normal.woff2") format("woff2");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Space Grotesk";
+  src: url("https://21press.com/wp-content/uploads/21press-delta/fonts/space-grotesk/space-grotesk-600-normal.woff2") format("woff2");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "JetBrains Mono";
+  src: url("https://21press.com/wp-content/uploads/21press-delta/fonts/jetbrains-mono/jetbrains-mono-400-normal.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ---------- Tokens ----------
+   Mirrors the live Delta palette. Semantic names, same as the site: each name
+   is a job, not a value. */
+
+:root {
+  --p21-surface-body: #0E0C0A;
+  --p21-surface-subtle: #131110;
+  --p21-surface-raised: #191614;
+  --p21-ink: #F6F4F1;
+  --p21-ink-muted: #A39D94;
+  --p21-border: #2A2621;
+  --p21-action: #2DD4BF;
+  --p21-action-hover: #5EEAD4;
+  --p21-on-action: #04231E;
+  --p21-danger: #F87171;
+  --p21-success: #4ADE80;
+
+  --p21-font-text: "Archivo", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --p21-font-title: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
+  --p21-font-mono: "JetBrains Mono", ui-monospace, Menlo, monospace;
+
+  --p21-radius-md: 0.375rem;
+  --p21-radius-lg: 0.5rem;
+  --p21-radius-full: 9999px;
+}
+
+/* ---------- Ground ---------- */
+
+html,
+body,
+#main_content_container,
+.mat-sidenav-content,
+.mat-drawer-content,
+.mat-sidenav-container,
+.mat-drawer-container {
+  background: var(--p21-surface-body) !important;
+  color: var(--p21-ink) !important;
+}
+
+body,
+.mat-typography,
+input,
+button,
+select,
+textarea {
+  font-family: var(--p21-font-text) !important;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ---------- Type ---------- */
+
+h1, h2, h3, h4,
+.mat-h1, .mat-h2, .mat-h3,
+.mat-headline, .mat-title, .mat-subheading-2 {
+  font-family: var(--p21-font-title) !important;
+  font-weight: 600 !important;
+  color: var(--p21-ink) !important;
+  letter-spacing: -0.02em;
+}
+
+p,
+li,
+.mat-body,
+.mat-body-1,
+.mat-caption {
+  color: var(--p21-ink-muted) !important;
+}
+
+code,
+kbd,
+.fs-license-key,
+[class*="license-key"] {
+  font-family: var(--p21-font-mono) !important;
+}
+
+a:not([class]),
+.mat-button:not(.mat-raised-button),
+a.link {
+  color: var(--p21-action) !important;
+}
+a:not([class]):hover {
+  color: var(--p21-action-hover) !important;
+}
+
+/* ---------- Surfaces ----------
+   Cards, panels, tables and dialogs on the signed-in screens. Written against
+   Material primitives because the authenticated markup was not inspectable. */
+
+.mat-card,
+.mat-expansion-panel,
+.mat-dialog-container,
+.mat-menu-panel,
+.mat-select-panel,
+.mat-table,
+.mat-paginator,
+.mat-tab-body-content > *,
+[class*="__card"],
+[class*="__panel"] {
+  background: var(--p21-surface-subtle) !important;
+  color: var(--p21-ink) !important;
+  border: 1px solid var(--p21-border) !important;
+  border-radius: var(--p21-radius-lg) !important;
+  box-shadow: none !important;
+}
+
+.mat-row,
+.mat-header-row,
+.mat-cell,
+.mat-header-cell {
+  background: transparent !important;
+  border-color: var(--p21-border) !important;
+  color: var(--p21-ink-muted) !important;
+}
+.mat-header-cell {
+  color: var(--p21-ink) !important;
+  font-family: var(--p21-font-title) !important;
+  font-weight: 500 !important;
+}
+
+/* ---------- Form fields ----------
+   Material draws the label, the underline and the focus ripple separately, so
+   each one has to be reclaimed or the field reverts to the default indigo. */
+
+.mat-form-field,
+.mat-input-element,
+.mat-select-value,
+.mat-select-arrow {
+  color: var(--p21-ink) !important;
+  caret-color: var(--p21-action) !important;
+}
+
+.mat-form-field-label,
+.mat-form-field-placeholder,
+.mat-hint,
+.mat-form-field-hint-wrapper {
+  color: var(--p21-ink-muted) !important;
+}
+
+.mat-form-field-underline,
+.mat-form-field-ripple {
+  background-color: var(--p21-border) !important;
+}
+.mat-focused .mat-form-field-label,
+.mat-form-field.mat-focused .mat-form-field-label {
+  color: var(--p21-action) !important;
+}
+.mat-focused .mat-form-field-ripple,
+.mat-form-field.mat-focused .mat-form-field-ripple {
+  background-color: var(--p21-action) !important;
+}
+
+.mat-input-element:-webkit-autofill {
+  -webkit-text-fill-color: var(--p21-ink) !important;
+  -webkit-box-shadow: 0 0 0 1000px var(--p21-surface-subtle) inset !important;
+}
+
+.mat-error,
+.mat-form-field-invalid .mat-form-field-label {
+  color: var(--p21-danger) !important;
+}
+
+/* ---------- Buttons ----------
+   Pill shape and the 10rem floor, matching the site's .btn. */
+
+.mat-raised-button,
+.mat-flat-button,
+button.mat-primary {
+  background: var(--p21-action) !important;
+  color: var(--p21-on-action) !important;
+  font-family: var(--p21-font-text) !important;
+  font-weight: 600 !important;
+  min-width: 10rem;
+  border-radius: var(--p21-radius-full) !important;
+  box-shadow: none !important;
+  transition: background 0.15s ease, transform 0.2s ease;
+}
+.mat-raised-button:hover,
+.mat-flat-button:hover,
+button.mat-primary:hover {
+  background: var(--p21-action-hover) !important;
+  transform: translateY(-1px);
+}
+
+.mat-stroked-button {
+  border: 1px solid var(--p21-border) !important;
+  color: var(--p21-ink) !important;
+  border-radius: var(--p21-radius-full) !important;
+}
+
+.mat-icon-button,
+.mat-icon {
+  color: var(--p21-ink-muted) !important;
+}
+.mat-icon-button:hover .mat-icon {
+  color: var(--p21-action) !important;
+}
+
+*:focus-visible {
+  outline: 2px solid var(--p21-action) !important;
+  outline-offset: 2px;
+}
+
+/* ---------- Checkbox ---------- */
+
+.mat-checkbox-frame {
+  border-color: var(--p21-border) !important;
+  border-radius: var(--p21-radius-md) !important;
+}
+.mat-checkbox-checked .mat-checkbox-background,
+.mat-checkbox-indeterminate .mat-checkbox-background {
+  background-color: var(--p21-action) !important;
+  border-radius: var(--p21-radius-md) !important;
+}
+.mat-checkbox-checkmark-path {
+  stroke: var(--p21-on-action) !important;
+}
+.mat-checkbox-label {
+  color: var(--p21-ink-muted) !important;
+}
+
+/* ---------- Status ---------- */
+
+[class*="status"][class*="active"],
+[class*="badge"][class*="success"] {
+  color: var(--p21-success) !important;
+}
+[class*="status"][class*="cancel"],
+[class*="status"][class*="expired"],
+[class*="badge"][class*="danger"] {
+  color: var(--p21-danger) !important;
+}
+
+/* ---------- Login screen ---------- */
+
+.login__store-scope-note {
+  color: var(--p21-ink-muted) !important;
+}
+
+.fs-logo,
+.fs-logo img {
+  filter: none;
+}
+
+/* ---------- Footer ----------
+   Freemius attribution and terms. Kept legible but quiet. */
+
+#footer,
+#poweredby,
+#terms,
+#terms a {
+  color: var(--p21-ink-muted) !important;
+  border-color: var(--p21-border) !important;
+}
+#footer a:hover {
+  color: var(--p21-action) !important;
+}
+
+/* ---------- Scrollbars ---------- */
+
+* {
+  scrollbar-color: var(--p21-border) transparent;
+}
