@@ -83,6 +83,7 @@
   --p21-on-action: #04231E;
   --p21-danger: #F87171;
   --p21-success: #4ADE80;
+  --p21-success-bg: #10281A;
 
   --p21-font-text: "Archivo", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
   --p21-font-title: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
@@ -350,4 +351,196 @@ button.mat-raised-button.mat-primary {
 
 * {
   scrollbar-color: var(--p21-border) transparent;
+}
+
+/* ==========================================================================
+   Signed-in application shell
+   ==========================================================================
+   Freemius sets these with !important at a specificity that a class-only rule
+   cannot beat, so the selectors below are prefixed with #app_container (and
+   #sidenav_left for the navigation). That was established by testing: an
+   inline style without !important lost, an inline style with !important won,
+   and a 0,5,1 class selector still lost. Do not "simplify" these selectors by
+   dropping the IDs; the rules stop applying.
+   ========================================================================== */
+
+#app_container,
+#app_container .mat-sidenav-container,
+#app_container .mat-drawer-container {
+  background: var(--p21-surface-body) !important;
+  color: var(--p21-ink) !important;
+}
+
+/* Navigation rail */
+
+#app_container #sidenav_left,
+#app_container mat-sidenav#sidenav_left {
+  background: var(--p21-surface-subtle) !important;
+  border-right: 1px solid var(--p21-border) !important;
+}
+
+#app_container #sidenav_left a.menu-item-link,
+#app_container #sidenav_left a.menu-item-link.mat-button,
+#app_container #sidenav_left a.menu-item-link.--active {
+  background: transparent !important;
+  background-color: transparent !important;
+  color: var(--p21-ink-muted) !important;
+  border-left: 3px solid transparent !important;
+  border-radius: 0 !important;
+}
+#app_container #sidenav_left a.menu-item-link:hover {
+  color: var(--p21-ink) !important;
+}
+
+/* Current item carries a rule, not a fill, matching the docs sidebar on the
+   site. A filled pill here fought the teal and read as a second accent. */
+#app_container #sidenav_left a.menu-item-link.--active {
+  color: var(--p21-ink) !important;
+  border-left-color: var(--p21-action) !important;
+}
+#app_container #sidenav_left a.menu-item-link .mat-icon,
+#app_container #sidenav_left a.menu-item-link .fs-svg {
+  color: inherit !important;
+  fill: currentColor !important;
+}
+#app_container #sidenav_left a.menu-item-link.--active .fs-svg,
+#app_container #sidenav_left a.menu-item-link.--active .mat-icon {
+  color: var(--p21-action) !important;
+}
+
+/* Top bar */
+
+#app_container mat-toolbar,
+#app_container .mat-toolbar,
+#app_container mat-toolbar-row,
+#app_container .mat-toolbar-row {
+  background: var(--p21-surface-body) !important;
+  color: var(--p21-ink) !important;
+  border-bottom: 1px solid var(--p21-border) !important;
+}
+#app_container mat-toolbar a,
+#app_container .mat-toolbar a {
+  color: var(--p21-ink-muted) !important;
+}
+#app_container .signout-label {
+  color: var(--p21-action) !important;
+}
+
+/* Content surfaces. The card class appears in several combinations across the
+   screens (table-container, --scrollable, mat-padding, contact__content), so
+   the base classes are matched rather than each pairing. */
+
+#app_container .content-card,
+#app_container .table-container,
+#app_container .mat-sidenav-content,
+#app_container .mat-drawer-content,
+#app_container mat-expansion-panel,
+#app_container .mat-expansion-panel {
+  background: var(--p21-surface-body) !important;
+  color: var(--p21-ink) !important;
+  border-color: var(--p21-border) !important;
+  box-shadow: none !important;
+}
+
+/* Section headings inside cards ship a light band. */
+#app_container .content-card h2,
+#app_container h2 {
+  background: var(--p21-surface-subtle) !important;
+  color: var(--p21-ink) !important;
+  border: 1px solid var(--p21-border) !important;
+  border-radius: var(--p21-radius-md) !important;
+}
+
+/* Tables */
+
+#app_container mat-table,
+#app_container .mat-table,
+#app_container mat-header-row,
+#app_container .mat-header-row,
+#app_container mat-row,
+#app_container .mat-row {
+  background: transparent !important;
+  border-color: var(--p21-border) !important;
+}
+#app_container .mat-header-cell {
+  color: var(--p21-ink) !important;
+  font-family: var(--p21-font-title) !important;
+}
+#app_container .mat-cell {
+  color: var(--p21-ink-muted) !important;
+}
+#app_container .mat-cell a,
+#app_container .mat-row a {
+  color: var(--p21-action) !important;
+}
+
+/* Inputs on the signed-in screens */
+
+#app_container .mat-form-field-underline,
+#app_container .mat-input-underline {
+  background-color: var(--p21-border) !important;
+}
+#app_container .mat-input-element,
+#app_container .mat-select-value-text,
+#app_container .mat-option {
+  color: var(--p21-ink) !important;
+}
+
+/* Buttons. mat-warn is the destructive pink, and a disabled primary ships a
+   light grey that reads as a hole on a dark ground. */
+
+#app_container button.mat-warn,
+#app_container .mat-button.mat-warn {
+  background: transparent !important;
+  color: var(--p21-danger) !important;
+  border: 1px solid var(--p21-danger) !important;
+  border-radius: var(--p21-radius-full) !important;
+}
+#app_container button[disabled],
+#app_container .mat-button-disabled {
+  background: var(--p21-surface-subtle) !important;
+  color: var(--p21-ink-muted) !important;
+  border: 1px solid var(--p21-border) !important;
+}
+#app_container button.mat-primary-inverse {
+  background: transparent !important;
+  color: var(--p21-action) !important;
+}
+#app_container .mat-button-focus-overlay {
+  background: var(--p21-action) !important;
+  opacity: 0.08 !important;
+}
+
+/* Badges and inline code */
+
+#app_container .label-success {
+  background: var(--p21-success-bg, #10281A) !important;
+  color: var(--p21-success) !important;
+  border-radius: var(--p21-radius-md) !important;
+}
+#app_container code {
+  background: var(--p21-surface-subtle) !important;
+  color: var(--p21-ink) !important;
+  font-family: var(--p21-font-mono) !important;
+  border: 1px solid var(--p21-border) !important;
+  border-radius: var(--p21-radius-md) !important;
+}
+
+/* Tooltips and menus float outside #app_container, so they are matched on
+   their own classes. */
+.mat-tooltip,
+.mat-menu-panel,
+.mat-select-panel,
+.mat-autocomplete-panel {
+  background: var(--p21-surface-subtle) !important;
+  color: var(--p21-ink) !important;
+  border: 1px solid var(--p21-border) !important;
+}
+.mat-menu-item,
+.mat-option {
+  color: var(--p21-ink) !important;
+}
+.mat-menu-item:hover,
+.mat-option:hover {
+  background: var(--p21-surface-body) !important;
 }
