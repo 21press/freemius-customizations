@@ -814,3 +814,80 @@ mat-sidenav-content#main_content_container,
   box-shadow: none !important;
   border-color: transparent !important;
 }
+
+/* ==========================================================================
+   Freemius design-system variables
+   ==========================================================================
+   The portal exposes its own theme variables. Overriding these fixes colour at
+   the source, which is cheaper and more durable than out-specifying each rule.
+   Their defaults:
+
+     --fs-ds-theme-background  #f0f0fa   the lavender ground
+     --fs-ds-theme-foreground  #54545f   body text
+     --fs-ds-theme-primary     #6753ff   the indigo
+     --fs-ds-theme-accent      #b4d2ff   the light blue nav highlight
+     --fs-ds-theme-border      #f0f0fa
+     --fs-ds-theme-warn        #e62a97   the magenta
+
+   Not everything reads them at runtime. The required-marker asterisk stays
+   magenta even with --fs-ds-theme-warn overridden, which is why the explicit
+   rule further up is still needed. Treat these as a base layer, not a
+   replacement for the rules above.
+
+   --fs-ds-theme-accent is deliberately left alone: it is used as a background
+   for the active nav item, which is handled explicitly, and forcing it risks
+   painting text in a colour meant for a fill. */
+
+:root {
+  --fs-ds-theme-background: #0E0C0A !important;
+  --fs-ds-theme-foreground: #A39D94 !important;
+  --fs-ds-theme-primary: #2DD4BF !important;
+  --fs-ds-theme-border: #2A26216E !important;
+  --fs-ds-theme-warn: #F87171 !important;
+}
+
+/* The shell carries a margin that let the old lavender ground show as a band
+   around the portal. */
+#app_container .mat-sidenav-container,
+#app_container > div {
+  margin: 0 !important;
+  background: var(--p21-surface-body) !important;
+}
+
+/* ---------- Table rows ---------- */
+
+/* Decorative glyphs in table cells repeat what the column already says. The
+   functional controls in the license cell (reveal and copy) are kept. */
+#app_container .mat-cell > .fs-icon,
+#app_container .mat-cell > span > .fs-icon,
+#app_container .mat-column-product_type .fs-icon,
+#app_container .mat-column-install .fs-icon {
+  display: none !important;
+}
+
+/* Those controls were rendering as dark filled circles. Flatten them. */
+#app_container .mat-cell .mat-icon-button,
+#app_container .mat-column-license_key .mat-icon-button,
+#app_container .mat-column-license_key button {
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  color: var(--p21-ink-muted) !important;
+}
+#app_container .mat-cell .mat-icon-button:hover,
+#app_container .mat-column-license_key button:hover {
+  color: var(--p21-action) !important;
+}
+
+/* ---------- Badges ----------
+   Status pills shipped with vertical padding only, so the text met the edge. */
+#app_container .label,
+#app_container .label-success,
+#app_container .label-warning,
+#app_container .label-danger,
+#app_container [class*="badge"] {
+  display: inline-block !important;
+  padding: 0.15em 0.55em !important;
+  border-radius: var(--p21-radius-md) !important;
+  line-height: 1.5 !important;
+}
