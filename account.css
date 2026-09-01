@@ -77,7 +77,7 @@
   --p21-surface-raised: #191614;
   --p21-ink: #F6F4F1;
   --p21-ink-muted: #A39D94;
-  --p21-border: #2A2621;
+  --p21-border: #2A26216E;   /* carries alpha, same as the site token */
   --p21-action: #2DD4BF;
   --p21-action-hover: #5EEAD4;
   --p21-on-action: #04231E;
@@ -708,4 +708,20 @@ mat-sidenav-content#main_content_container > footer#footer {
 mat-sidenav-content#main_content_container,
 #app_container #main_content_container {
   background: var(--p21-surface-body) !important;
+}
+
+/* ---------- Separators and callouts ---------- */
+
+/* The FAQ column divider ships at rgb(240,240,250), which is a bright line on
+   a dark ground. */
+#app_container .faq--accordion > div > div {
+  border-right-color: var(--p21-border) !important;
+}
+
+/* Tip callouts carry a 5px indigo rule. */
+#app_container .callout,
+#app_container .callout-tip {
+  background: var(--p21-surface-subtle) !important;
+  border-left-color: var(--p21-action) !important;
+  color: var(--p21-ink-muted) !important;
 }
