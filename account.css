@@ -856,14 +856,10 @@ mat-sidenav-content#main_content_container,
 
 /* ---------- Table rows ---------- */
 
-/* Decorative glyphs in table cells repeat what the column already says. The
-   functional controls in the license cell (reveal and copy) are kept. */
-#app_container .mat-cell > .fs-icon,
-#app_container .mat-cell > span > .fs-icon,
-#app_container .mat-column-product_type .fs-icon,
-#app_container .mat-column-install .fs-icon {
-  display: none !important;
-}
+/* Earlier this hid decorative glyphs in table cells, but the selectors also
+   caught the reveal and copy icons inside the license cell, leaving two empty
+   circles. Cell icons are left visible; only their container styling is
+   adjusted below. */
 
 /* Those controls were rendering as dark filled circles. Flatten them. */
 #app_container .mat-cell .mat-icon-button,
@@ -890,4 +886,19 @@ mat-sidenav-content#main_content_container,
   padding: 0.15em 0.55em !important;
   border-radius: var(--p21-radius-md) !important;
   line-height: 1.5 !important;
+}
+
+/* Icons inside table controls are inline SVG painted with fill, so the button
+   colour has to be passed down explicitly or the glyph disappears against the
+   circle it sits in. */
+#app_container .mat-cell .fs-svg,
+#app_container .mat-cell .fs-icon svg,
+#app_container .mat-column-license_key .fs-svg,
+#app_container .mat-column-license_key svg {
+  fill: currentColor !important;
+  opacity: 1 !important;
+}
+#app_container .mat-cell .mat-icon-button,
+#app_container .mat-column-license_key .mat-icon-button {
+  color: var(--p21-ink-muted) !important;
 }
