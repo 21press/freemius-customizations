@@ -888,17 +888,65 @@ mat-sidenav-content#main_content_container,
   line-height: 1.5 !important;
 }
 
-/* Icons inside table controls are inline SVG painted with fill, so the button
-   colour has to be passed down explicitly or the glyph disappears against the
-   circle it sits in. */
-#app_container .mat-cell .fs-svg,
-#app_container .mat-cell .fs-icon svg,
-#app_container .mat-column-license_key .fs-svg,
-#app_container .mat-column-license_key svg {
-  fill: currentColor !important;
+/* ---------- License key controls ----------
+   Structure, from the live DOM:
+
+     mat-cell.mat-column-license_key
+       > div
+         > button        (reveal)   > span > fs-icon > svg.fs-svg
+         > input/code    (the key)
+         > button        (copy)     > span > fs-icon > svg.fs-svg
+
+   Three separate things were hiding these glyphs across earlier attempts: a
+   decorative-icon rule that also matched them, a button colour dark enough to
+   vanish against the circle behind it, and fill not inheriting because the SVG
+   sits two elements below the button. Everything they need is set explicitly
+   here rather than inherited, so none of those can recur. */
+
+#app_container .mat-column-license_key > div > button,
+#app_container .mat-column-license_key button,
+#app_container .mat-cell .mat-icon-button {
+  background: transparent !important;
+  background-color: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  color: var(--p21-ink) !important;
   opacity: 1 !important;
+  visibility: visible !important;
 }
-#app_container .mat-cell .mat-icon-button,
-#app_container .mat-column-license_key .mat-icon-button {
-  color: var(--p21-ink-muted) !important;
+
+#app_container .mat-column-license_key button fs-icon,
+#app_container .mat-column-license_key button .fs-icon,
+#app_container .mat-cell button fs-icon,
+#app_container .mat-cell button .fs-icon {
+  display: inline-flex !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  color: var(--p21-ink) !important;
+}
+
+#app_container .mat-column-license_key button svg,
+#app_container .mat-column-license_key button .fs-svg,
+#app_container .mat-cell button svg,
+#app_container .mat-cell button .fs-svg {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  width: 1.1em !important;
+  height: 1.1em !important;
+  color: var(--p21-ink) !important;
+  fill: currentColor !important;
+}
+
+/* Freemius icons vary: some are filled paths, some are stroked outlines. A
+   stroked icon with fill:currentColor and no stroke would render as a solid
+   blob, so any path that already declares a stroke keeps drawing with it. */
+#app_container .mat-cell button svg [stroke],
+#app_container .mat-column-license_key button svg [stroke] {
+  stroke: currentColor !important;
+}
+
+#app_container .mat-column-license_key button:hover,
+#app_container .mat-cell .mat-icon-button:hover {
+  color: var(--p21-action) !important;
 }
