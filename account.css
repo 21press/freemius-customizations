@@ -844,6 +844,7 @@ mat-sidenav-content#main_content_container,
   --fs-ds-theme-primary: #2DD4BF !important;
   --fs-ds-theme-border: #2A26216E !important;
   --fs-ds-theme-warn: #F87171 !important;
+  --fs-ds-theme-primary-text: #2DD4BF !important;
 }
 
 /* The shell carries a margin that let the old lavender ground show as a band
