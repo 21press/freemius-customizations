@@ -1155,3 +1155,18 @@ mat-sidenav-content#main_content_container,
 #app_container .mat-cell .mat-icon-button:hover {
   color: var(--p21-action) !important;
 }
+
+/* A filled button inside a cell (Downloads: Composer) is the exception: its
+   icon takes the button ink, not the light table ink set above. Written after
+   and one class deeper so it wins. */
+#app_container .mat-cell button.mat-raised-button,
+#app_container .mat-cell button.mat-flat-button,
+#app_container .mat-cell button.mat-raised-button fs-icon,
+#app_container .mat-cell button.mat-raised-button .fs-icon,
+#app_container .mat-cell button.mat-raised-button svg,
+#app_container .mat-cell button.mat-raised-button .fs-svg,
+#app_container .mat-cell button.mat-flat-button svg,
+#app_container .mat-cell button.mat-flat-button .fs-svg {
+  color: var(--p21-on-action) !important;
+  fill: var(--p21-on-action) !important;
+}
