@@ -10,7 +10,7 @@ portal; you attach the URLs in the Freemius developer dashboard.
 ## The URL to use
 
 ```
-https://cdn.jsdelivr.net/gh/21press/freemius-customizations@v8/account.css
+https://cdn.jsdelivr.net/gh/21press/freemius-customizations@v9/account.css
 ```
 
 **Use a tag, never `@main`.** A tagged URL is immutable, so jsDelivr caches it
@@ -25,7 +25,7 @@ tag exists.
    gh api repos/21press/freemius-customizations/git/refs -X POST \
      -f ref="refs/tags/v8" -f sha="$(gh api repos/21press/freemius-customizations/commits -q '.[0].sha')"
    ```
-3. Update the URL in the Freemius dashboard to `@v8`. One character.
+3. Update the URL in the Freemius dashboard to `@v9`. One character.
 
 That step 3 is manual and cannot be automated from here; the setting lives in the
 Freemius developer dashboard.
@@ -49,7 +49,7 @@ cause is almost always a stale file rather than broken CSS. Compare sizes:
 
 ```
 gh api repos/21press/freemius-customizations/contents/account.css -q .size
-curl -s "https://cdn.jsdelivr.net/gh/21press/freemius-customizations@v8/account.css" | wc -c
+curl -s "https://cdn.jsdelivr.net/gh/21press/freemius-customizations@v9/account.css" | wc -c
 ```
 
 ## How to work on this file
@@ -192,5 +192,5 @@ does not verify the other.
 header.
 
 ```
-https://cdn.jsdelivr.net/gh/21press/freemius-customizations@v8/account.js
+https://cdn.jsdelivr.net/gh/21press/freemius-customizations@v9/account.js
 ```

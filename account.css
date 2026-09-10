@@ -78,6 +78,11 @@
   --p21-ink: #F6F4F1;
   --p21-ink-muted: #9E9E9E;
   --p21-border: #2A26216E;   /* carries alpha, same as the site token */
+  /* Inverted set, used for the light input fields. Switches as a group. */
+  --p21-surface-contrast: #F4F4F5;
+  --p21-ink-on-contrast: #0B0B0E;
+  --p21-ink-muted-on-contrast: #62626B;
+  --p21-border-on-contrast: #D9D9DE;
   --p21-action: #A3E635;
   --p21-action-hover: #8ECF00;
   --p21-on-action: #0F1A00;
@@ -190,47 +195,179 @@ a:not([class]):hover {
 }
 
 /* ---------- Form fields ----------
-   Material draws the label, the underline and the focus ripple separately, so
-   each one has to be reclaimed or the field reverts to the default indigo. */
+   Fields are light boxes on the dark ground, using the site's -on-contrast
+   set. Material draws the label, the underline and the focus ripple as
+   separate parts; the underline and ripple are hidden because the box border
+   carries the focus state, and the global focus outline is switched off on
+   the input so there is one ring, not two. The ID prefixes are load-bearing:
+   the login form sits inside #form_container, the rest inside #app_container. */
 
+#app_container .mat-form-field-flex,
+#form_container .mat-form-field-flex {
+  background: var(--p21-surface-contrast) !important;
+  border: 1px solid var(--p21-border-on-contrast) !important;
+  border-radius: var(--p21-radius-md) !important;
+  padding: 0 0.75rem !important;
+  min-height: 2.75rem !important;   /* site --control-height */
+  align-items: center !important;
+  box-sizing: border-box !important;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+#app_container .mat-form-field.mat-focused .mat-form-field-flex,
+#form_container .mat-form-field.mat-focused .mat-form-field-flex {
+  border-color: var(--p21-action) !important;
+  box-shadow: 0 0 0 2px rgba(163, 230, 53, 0.35) !important;
+}
+#app_container .mat-form-field-underline,
+#app_container .mat-form-field-ripple,
+#form_container .mat-form-field-underline,
+#form_container .mat-form-field-ripple {
+  display: none !important;
+}
+#app_container .mat-form-field-wrapper,
+#form_container .mat-form-field-wrapper {
+  padding-bottom: 1.25rem !important;
+}
+/* Material reserves space above the input for the floating label. The label
+   here behaves as a placeholder instead: it sits on the input line and goes
+   away once the field has a value or focus, so the box stays compact. */
+#app_container .mat-form-field-infix,
+#form_container .mat-form-field-infix {
+  border-top: 0 !important;
+  padding: 0.5rem 0 !important;
+  width: auto !important;
+  flex: 1 1 auto !important;
+}
+#app_container .mat-form-field-label-wrapper,
+#form_container .mat-form-field-label-wrapper {
+  top: 0 !important;
+  padding-top: 0 !important;
+  height: 100% !important;
+  display: flex !important;
+  align-items: center !important;
+  pointer-events: none;
+}
+#app_container .mat-form-field-label,
+#form_container .mat-form-field-label {
+  position: static !important;
+  transform: none !important;
+  margin: 0 !important;
+  width: auto !important;
+}
+#app_container .mat-form-field-should-float .mat-form-field-label-wrapper,
+#form_container .mat-form-field-should-float .mat-form-field-label-wrapper,
+#app_container .mat-form-field.mat-focused .mat-form-field-label-wrapper,
+#form_container .mat-form-field.mat-focused .mat-form-field-label-wrapper {
+  display: none !important;
+}
+/* The password eye is a 40px icon button that Material lays out as a block
+   with a 40px line-height, which leaves the glyph sitting high in a 44px box.
+   Flex-centre the button, the icon wrapper and the svg so it lands on the
+   text line. The negative right margin pulls it to the box edge. */
+#app_container .mat-form-field-flex .mat-icon-button,
+#form_container .mat-form-field-flex .mat-icon-button {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  align-self: center !important;
+  height: 2.5rem !important;
+  width: 2.5rem !important;
+  line-height: 1 !important;
+  margin: 0 -0.5rem 0 0 !important;
+  padding: 0 !important;
+}
+#app_container .mat-form-field-flex .mat-icon-button .fs-icon,
+#form_container .mat-form-field-flex .mat-icon-button .fs-icon {
+  display: flex !important;
+  align-items: center !important;
+  line-height: 0 !important;
+}
+#app_container .mat-form-field-flex .mat-icon-button .fs-svg,
+#form_container .mat-form-field-flex .mat-icon-button .fs-svg {
+  display: block !important;
+  width: 1.25rem !important;
+  height: 1.25rem !important;
+}
+/* Prefix icons (envelope, padlock) add nothing the label does not say. The
+   suffix stays: the password eye is a control. */
+#app_container .mat-form-field-prefix,
+#form_container .mat-form-field-prefix {
+  display: none !important;
+}
+#app_container .mat-form-field-subscript-wrapper,
+#form_container .mat-form-field-subscript-wrapper {
+  margin-top: 0.35rem !important;
+}
+
+/* Ink inside the light box */
 .mat-form-field,
 .mat-input-element,
 .mat-select-value,
-.mat-select-arrow {
-  color: var(--p21-ink) !important;
-  caret-color: var(--p21-action) !important;
+.mat-select-arrow,
+#app_container .mat-form-field .mat-input-element,
+#form_container .mat-form-field .mat-input-element,
+#app_container .mat-select-value,
+#app_container .mat-select-arrow {
+  color: var(--p21-ink-on-contrast) !important;
+  caret-color: var(--p21-ink-on-contrast) !important;
+}
+#app_container .mat-form-field .mat-input-element:focus-visible,
+#form_container .mat-form-field .mat-input-element:focus-visible {
+  outline: none !important;
 }
 
 .mat-form-field-label,
 .mat-form-field-placeholder,
+#app_container .mat-form-field-label,
+#form_container .mat-form-field-label,
+#app_container .mat-form-field.mat-focused .mat-form-field-label,
+#form_container .mat-form-field.mat-focused .mat-form-field-label {
+  color: var(--p21-ink-muted-on-contrast) !important;
+  font-weight: 400 !important;
+}
 .mat-hint,
 .mat-form-field-hint-wrapper {
   color: var(--p21-ink-muted) !important;
 }
 
-.mat-form-field-underline,
-.mat-form-field-ripple {
-  background-color: var(--p21-border) !important;
-}
-.mat-focused .mat-form-field-label,
-.mat-form-field.mat-focused .mat-form-field-label {
-  color: var(--p21-action) !important;
-}
-.mat-focused .mat-form-field-ripple,
-.mat-form-field.mat-focused .mat-form-field-ripple {
-  background-color: var(--p21-action) !important;
+/* Prefix and suffix icons sit inside the light box, so they take the muted
+   on-contrast ink. The password eye is an icon button, which would otherwise
+   pick up the action colour meant for icon buttons on the dark ground. */
+#app_container .mat-form-field-prefix,
+#app_container .mat-form-field-suffix,
+#app_container .mat-form-field-prefix .fs-svg,
+#app_container .mat-form-field-suffix .fs-svg,
+#app_container .mat-form-field-flex .mat-icon-button,
+#app_container .mat-form-field-flex .mat-icon-button .fs-svg,
+#app_container .mat-form-field-flex .mat-icon-button .mat-icon,
+#app_container .mat-form-field-flex .mat-icon-button:hover .fs-svg,
+#app_container .mat-form-field-flex .mat-icon-button:hover .mat-icon,
+#form_container .mat-form-field-prefix,
+#form_container .mat-form-field-suffix,
+#form_container .mat-form-field-prefix .fs-svg,
+#form_container .mat-form-field-suffix .fs-svg,
+#form_container .mat-form-field-flex .mat-icon-button,
+#form_container .mat-form-field-flex .mat-icon-button .fs-svg,
+#form_container .mat-form-field-flex .mat-icon-button:hover .fs-svg {
+  color: var(--p21-ink-muted-on-contrast) !important;
+  fill: var(--p21-ink-muted-on-contrast) !important;
 }
 
-.mat-input-element:-webkit-autofill {
-  -webkit-text-fill-color: var(--p21-ink) !important;
-  -webkit-box-shadow: 0 0 0 1000px var(--p21-surface-subtle) inset !important;
+.mat-input-element:-webkit-autofill,
+#app_container .mat-input-element:-webkit-autofill,
+#form_container .mat-input-element:-webkit-autofill {
+  -webkit-text-fill-color: var(--p21-ink-on-contrast) !important;
+  -webkit-box-shadow: 0 0 0 1000px var(--p21-surface-contrast) inset !important;
 }
 
 .mat-error,
-.mat-form-field-invalid .mat-form-field-label,
+.mat-form-field-invalid .mat-form-field-label {
+  color: var(--p21-danger) !important;
+}
+/* The required asterisk is the label's muted ink, not a colour of its own. */
 .mat-form-field-required-marker,
 .mat-placeholder-required {
-  color: var(--p21-danger) !important;
+  color: var(--p21-ink-muted-on-contrast) !important;
 }
 
 /* ---------- Buttons ----------
@@ -744,19 +881,25 @@ mat-sidenav-content#main_content_container,
 }
 
 /* ---------- Required markers ----------
-   Freemius renders the asterisk in its brand magenta (#E62A97). The login form
-   is not inside #app_container, so the signed-in rule never reached it, and the
-   marker stayed magenta on the login card. Both scopes are covered here. */
+   Freemius renders the asterisk in its brand magenta (#E62A97) at a depth that
+   two IDs cannot beat; probed live, only the three-ID login selector wins
+   there. It takes the label's muted ink so the label reads as one thing. */
 
+#login #form_container #form .mat-form-field-required-marker,
+#login #form_container #form .mat-placeholder-required,
+#app_container #main_content_container #main_content .mat-form-field-required-marker,
+#app_container #main_content_container #main_content .mat-placeholder-required,
+#app_container #main_content_container .mat-form-field-required-marker,
 #app_container .mat-form-field-required-marker,
-#main_content_container .mat-form-field-required-marker,
 #form_container .mat-form-field-required-marker,
 #form .mat-form-field-required-marker,
 .login .mat-form-field-required-marker,
 #app_container .mat-placeholder-required,
 #main_content_container .mat-placeholder-required,
-#form_container .mat-placeholder-required {
-  color: var(--p21-danger) !important;
+#form_container .mat-placeholder-required,
+#login #form_container #form .mat-form-field-invalid .mat-form-field-required-marker,
+#login #form_container #form .mat-focused .mat-form-field-required-marker {
+  color: var(--p21-ink-muted-on-contrast) !important;
 }
 
 /* ---------- Freemius wordmark ----------
