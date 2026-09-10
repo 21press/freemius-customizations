@@ -78,11 +78,10 @@
   --p21-ink: #F6F4F1;
   --p21-ink-muted: #9E9E9E;
   --p21-border: #2A26216E;   /* carries alpha, same as the site token */
-  /* Inverted set, used for the light input fields. Switches as a group. */
-  --p21-surface-contrast: #F4F4F5;
-  --p21-ink-on-contrast: #0B0B0E;
-  --p21-ink-muted-on-contrast: #62626B;
-  --p21-border-on-contrast: #D9D9DE;
+  /* Input fields: one step lighter than a card so the box reads on both the
+     body ground and the subtle card ground, with a visible hairline. */
+  --p21-surface-field: #1C1815;
+  --p21-border-field: #33302B;
   --p21-action: #A3E635;
   --p21-action-hover: #8ECF00;
   --p21-on-action: #0F1A00;
@@ -195,8 +194,7 @@ a:not([class]):hover {
 }
 
 /* ---------- Form fields ----------
-   Fields are light boxes on the dark ground, using the site's -on-contrast
-   set. Material draws the label, the underline and the focus ripple as
+   Fields are dark boxes one step up from the ground, with light ink. Material draws the label, the underline and the focus ripple as
    separate parts; the underline and ripple are hidden because the box border
    carries the focus state, and the global focus outline is switched off on
    the input so there is one ring, not two. The ID prefixes are load-bearing:
@@ -204,8 +202,8 @@ a:not([class]):hover {
 
 #app_container .mat-form-field-flex,
 #form_container .mat-form-field-flex {
-  background: var(--p21-surface-contrast) !important;
-  border: 1px solid var(--p21-border-on-contrast) !important;
+  background: var(--p21-surface-field) !important;
+  border: 1px solid var(--p21-border-field) !important;
   border-radius: var(--p21-radius-md) !important;
   padding: 0 0.75rem !important;
   min-height: 2.75rem !important;   /* site --control-height */
@@ -216,7 +214,6 @@ a:not([class]):hover {
 #app_container .mat-form-field.mat-focused .mat-form-field-flex,
 #form_container .mat-form-field.mat-focused .mat-form-field-flex {
   border-color: var(--p21-action) !important;
-  box-shadow: 0 0 0 2px rgba(163, 230, 53, 0.35) !important;
 }
 #app_container .mat-form-field-underline,
 #app_container .mat-form-field-ripple,
@@ -298,8 +295,20 @@ a:not([class]):hover {
 #form_container .mat-form-field-subscript-wrapper {
   margin-top: 0.35rem !important;
 }
+/* Filter selects (Licenses, Subscriptions) sit in a 48px bar and carry the
+   no-underline class. Material still reserves 20px under them for hints, so
+   the 64px field overflowed the bar and was clipped at the top. */
+#app_container .mat-form-field-no-underline .mat-form-field-wrapper,
+#app_container #license_filters .mat-form-field-wrapper,
+#app_container [id$="_filters"] .mat-form-field-wrapper {
+  padding-bottom: 0 !important;
+}
+#app_container .mat-form-field-no-underline .mat-form-field-subscript-wrapper,
+#app_container [id$="_filters"] .mat-form-field-subscript-wrapper {
+  display: none !important;
+}
 
-/* Ink inside the light box */
+/* Ink inside the box */
 .mat-form-field,
 .mat-input-element,
 .mat-select-value,
@@ -308,8 +317,8 @@ a:not([class]):hover {
 #form_container .mat-form-field .mat-input-element,
 #app_container .mat-select-value,
 #app_container .mat-select-arrow {
-  color: var(--p21-ink-on-contrast) !important;
-  caret-color: var(--p21-ink-on-contrast) !important;
+  color: var(--p21-ink) !important;
+  caret-color: var(--p21-ink) !important;
 }
 #app_container .mat-form-field .mat-input-element:focus-visible,
 #form_container .mat-form-field .mat-input-element:focus-visible {
@@ -322,7 +331,7 @@ a:not([class]):hover {
 #form_container .mat-form-field-label,
 #app_container .mat-form-field.mat-focused .mat-form-field-label,
 #form_container .mat-form-field.mat-focused .mat-form-field-label {
-  color: var(--p21-ink-muted-on-contrast) !important;
+  color: var(--p21-ink-muted) !important;
   font-weight: 400 !important;
 }
 .mat-hint,
@@ -330,8 +339,7 @@ a:not([class]):hover {
   color: var(--p21-ink-muted) !important;
 }
 
-/* Prefix and suffix icons sit inside the light box, so they take the muted
-   on-contrast ink. The password eye is an icon button, which would otherwise
+/* Prefix and suffix icons take the muted ink. The password eye is an icon button, which would otherwise
    pick up the action colour meant for icon buttons on the dark ground. */
 #app_container .mat-form-field-prefix,
 #app_container .mat-form-field-suffix,
@@ -349,15 +357,15 @@ a:not([class]):hover {
 #form_container .mat-form-field-flex .mat-icon-button,
 #form_container .mat-form-field-flex .mat-icon-button .fs-svg,
 #form_container .mat-form-field-flex .mat-icon-button:hover .fs-svg {
-  color: var(--p21-ink-muted-on-contrast) !important;
-  fill: var(--p21-ink-muted-on-contrast) !important;
+  color: var(--p21-ink-muted) !important;
+  fill: var(--p21-ink-muted) !important;
 }
 
 .mat-input-element:-webkit-autofill,
 #app_container .mat-input-element:-webkit-autofill,
 #form_container .mat-input-element:-webkit-autofill {
-  -webkit-text-fill-color: var(--p21-ink-on-contrast) !important;
-  -webkit-box-shadow: 0 0 0 1000px var(--p21-surface-contrast) inset !important;
+  -webkit-text-fill-color: var(--p21-ink) !important;
+  -webkit-box-shadow: 0 0 0 1000px var(--p21-surface-field) inset !important;
 }
 
 .mat-error,
@@ -367,7 +375,7 @@ a:not([class]):hover {
 /* The required asterisk is the label's muted ink, not a colour of its own. */
 .mat-form-field-required-marker,
 .mat-placeholder-required {
-  color: var(--p21-ink-muted-on-contrast) !important;
+  color: var(--p21-ink-muted) !important;
 }
 
 /* ---------- Buttons ----------
@@ -417,6 +425,19 @@ button.mat-raised-button.mat-primary {
   fill: currentColor !important;
 }
 
+/* Icons inside a filled button take the button's ink. Freemius paints some of
+   them white directly on the svg (the Composer wand), so fill is set here with
+   the ID prefix rather than left to currentColor. */
+#app_container .mat-raised-button .fs-svg,
+#app_container .mat-flat-button .fs-svg,
+#app_container .mat-raised-button .fs-svg use,
+#app_container .mat-flat-button .fs-svg use,
+#app_container .mat-raised-button .mat-icon,
+#app_container .mat-flat-button .mat-icon {
+  color: var(--p21-on-action) !important;
+  fill: var(--p21-on-action) !important;
+}
+
 /* An icon inside a filled button belongs to the button, not to the muted ink. */
 .mat-raised-button .mat-icon,
 .mat-flat-button .mat-icon,
@@ -431,6 +452,17 @@ button.mat-raised-button.mat-primary {
 *:focus-visible {
   outline: 2px solid var(--p21-action) !important;
   outline-offset: 2px;
+}
+
+/* Buttons inside table cells (Downloads: Composer) have no room for the
+   10rem floor; the cell is about 130px, so the button spilled past it and
+   was clipped. Content width and tighter padding there. */
+#app_container .mat-cell .mat-raised-button,
+#app_container .mat-cell .mat-flat-button,
+#app_container .mat-cell .mat-button,
+#app_container .mat-cell .mat-stroked-button {
+  min-width: 0 !important;
+  padding: 0.5rem 0.9rem !important;
 }
 
 /* ---------- Checkbox ---------- */
@@ -583,12 +615,37 @@ button.mat-raised-button.mat-primary {
   box-shadow: none !important;
 }
 
-/* Section headings inside cards ship a light band. */
+/* Section headings inside cards ship a light band. Plain title instead:
+   no box, no border, a hairline under it like a site section head. */
 #app_container .content-card h2 {
-  background: var(--p21-surface-subtle) !important;
+  background: transparent !important;
   color: var(--p21-ink) !important;
-  border: 1px solid var(--p21-border) !important;
-  border-radius: var(--p21-radius-md) !important;
+  border: 0 !important;
+  border-bottom: 1px solid var(--p21-border) !important;
+  border-radius: 0 !important;
+  padding: 0.5rem 0 !important;
+  font-size: 1.125rem !important;
+}
+
+/* Sign out sits in the top bar. Its icon is a filled svg that inherited a
+   near-black fill and vanished on the dark ground; the lit box behind it was
+   the click overlay. */
+#app_container .signout-button .fs-svg,
+#app_container .signout-button .signout-icon svg {
+  fill: currentColor !important;
+  color: var(--p21-action) !important;
+}
+#app_container .signout-button .mat-button-focus-overlay {
+  display: none !important;
+}
+
+/* My Profile: the password field sits beside the Change Password button.
+   The field's reserved hint space pushed its box above the button's centre. */
+#app_container #password .mat-form-field-wrapper {
+  padding-bottom: 0 !important;
+}
+#app_container #password .mat-form-field-subscript-wrapper {
+  display: none !important;
 }
 
 /* Tables */
@@ -899,7 +956,7 @@ mat-sidenav-content#main_content_container,
 #form_container .mat-placeholder-required,
 #login #form_container #form .mat-form-field-invalid .mat-form-field-required-marker,
 #login #form_container #form .mat-focused .mat-form-field-required-marker {
-  color: var(--p21-ink-muted-on-contrast) !important;
+  color: var(--p21-ink-muted) !important;
 }
 
 /* ---------- Freemius wordmark ----------
