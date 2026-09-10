@@ -73,14 +73,14 @@
 
 :root {
   --p21-surface-body: #0E0C0A;
-  --p21-surface-subtle: #131110;
+  --p21-surface-subtle: #14110F;
   --p21-surface-raised: #191614;
   --p21-ink: #F6F4F1;
-  --p21-ink-muted: #A39D94;
+  --p21-ink-muted: #9E9E9E;
   --p21-border: #2A26216E;   /* carries alpha, same as the site token */
-  --p21-action: #2DD4BF;
-  --p21-action-hover: #5EEAD4;
-  --p21-on-action: #04231E;
+  --p21-action: #A3E635;
+  --p21-action-hover: #8ECF00;
+  --p21-on-action: #0F1A00;
   --p21-danger: #F87171;
   --p21-success: #4ADE80;
   --p21-success-bg: #10281A;
@@ -234,7 +234,8 @@ a:not([class]):hover {
 }
 
 /* ---------- Buttons ----------
-   Pill shape and the 10rem floor, matching the site's .btn. */
+   Matches the site's .btn: control radius (--radius-md), 0.85rem 1.35rem
+   padding, sm text, semibold, and the 10rem floor. */
 
 .mat-raised-button,
 .mat-flat-button,
@@ -244,9 +245,12 @@ button.mat-raised-button.mat-primary {
   background-color: var(--p21-action) !important;
   color: var(--p21-on-action) !important;
   font-family: var(--p21-font-text) !important;
+  font-size: 0.875rem !important;
   font-weight: 600 !important;
+  line-height: 1.2 !important;
+  padding: 0.85rem 1.35rem !important;
   min-width: 10rem;
-  border-radius: var(--p21-radius-full) !important;
+  border-radius: var(--p21-radius-md) !important;
   box-shadow: none !important;
   transition: background 0.15s ease, transform 0.2s ease;
 }
@@ -261,7 +265,7 @@ button.mat-raised-button.mat-primary {
 .mat-stroked-button {
   border: 1px solid var(--p21-border) !important;
   color: var(--p21-ink) !important;
-  border-radius: var(--p21-radius-full) !important;
+  border-radius: var(--p21-radius-md) !important;
 }
 
 .mat-icon-button,
@@ -493,7 +497,7 @@ button.mat-raised-button.mat-primary {
   background: transparent !important;
   color: var(--p21-danger) !important;
   border: 1px solid var(--p21-danger) !important;
-  border-radius: var(--p21-radius-full) !important;
+  border-radius: var(--p21-radius-md) !important;
 }
 #app_container button[disabled],
 #app_container .mat-button-disabled {
@@ -557,7 +561,7 @@ button.mat-raised-button.mat-primary {
 #app_container button.md-raised.mat-primary {
   background-color: var(--p21-action) !important;
   color: var(--p21-on-action) !important;
-  border-radius: var(--p21-radius-full) !important;
+  border-radius: var(--p21-radius-md) !important;
   box-shadow: none !important;
 }
 #app_container .mat-raised-button:hover,
@@ -617,7 +621,7 @@ button.mat-raised-button.mat-primary {
   background: transparent !important;
   color: var(--p21-action) !important;
   border: 1px solid var(--p21-action) !important;
-  border-radius: var(--p21-radius-full) !important;
+  border-radius: var(--p21-radius-md) !important;
 }
 
 /* License key cell. Freemius renders the key in a white chip with its own copy
@@ -840,11 +844,11 @@ mat-sidenav-content#main_content_container,
 
 :root {
   --fs-ds-theme-background: #0E0C0A !important;
-  --fs-ds-theme-foreground: #A39D94 !important;
-  --fs-ds-theme-primary: #2DD4BF !important;
+  --fs-ds-theme-foreground: #9E9E9E !important;
+  --fs-ds-theme-primary: #A3E635 !important;
   --fs-ds-theme-border: #2A26216E !important;
   --fs-ds-theme-warn: #F87171 !important;
-  --fs-ds-theme-primary-text: #2DD4BF !important;
+  --fs-ds-theme-primary-text: #A3E635 !important;
 }
 
 /* The shell carries a margin that let the old lavender ground show as a band

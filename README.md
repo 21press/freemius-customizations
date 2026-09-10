@@ -10,7 +10,7 @@ portal; you attach the URLs in the Freemius developer dashboard.
 ## The URL to use
 
 ```
-https://cdn.jsdelivr.net/gh/21press/freemius-customizations@v7/account.css
+https://cdn.jsdelivr.net/gh/21press/freemius-customizations@v8/account.css
 ```
 
 **Use a tag, never `@main`.** A tagged URL is immutable, so jsDelivr caches it
@@ -49,7 +49,7 @@ cause is almost always a stale file rather than broken CSS. Compare sizes:
 
 ```
 gh api repos/21press/freemius-customizations/contents/account.css -q .size
-curl -s "https://cdn.jsdelivr.net/gh/21press/freemius-customizations@v7/account.css" | wc -c
+curl -s "https://cdn.jsdelivr.net/gh/21press/freemius-customizations@v8/account.css" | wc -c
 ```
 
 ## How to work on this file
@@ -192,5 +192,5 @@ does not verify the other.
 header.
 
 ```
-https://cdn.jsdelivr.net/gh/21press/freemius-customizations@v7/account.js
+https://cdn.jsdelivr.net/gh/21press/freemius-customizations@v8/account.js
 ```
