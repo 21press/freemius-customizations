@@ -1,16 +1,24 @@
 # Freemius customizations
 
-Public CSS and JS for the 21Press Freemius store and customer portal.
+Public CSS and JS for the 21Press Freemius store, checkout, and customer portal.
 
 The portal is embedded on <https://21press.com/account/> as a **cross-origin iframe**
 from `customers.freemius.com`. None of the site's own CSS reaches it, so this
 repository is the only way to style it. Freemius loads these files inside the
 portal; you attach the URLs in the Freemius developer dashboard.
 
-## The URL to use
+## The URLs to use
+
+Account CSS:
 
 ```
 https://cdn.jsdelivr.net/gh/21press/freemius-customizations@v11/account.css
+```
+
+Checkout CSS:
+
+```
+https://cdn.jsdelivr.net/gh/21press/freemius-customizations@v12/checkout.css
 ```
 
 **Use a tag, never `@main`.** A tagged URL is immutable, so jsDelivr caches it
@@ -23,9 +31,9 @@ tag exists.
 2. Create the next tag on that commit:
    ```
    gh api repos/21press/freemius-customizations/git/refs -X POST \
-     -f ref="refs/tags/v8" -f sha="$(gh api repos/21press/freemius-customizations/commits -q '.[0].sha')"
+     -f ref="refs/tags/v12" -f sha="$(gh api repos/21press/freemius-customizations/commits -q '.[0].sha')"
    ```
-3. Update the URL in the Freemius dashboard to `@v11`. One character.
+3. Update the URL in the Freemius dashboard to the new tag. One character.
 
 That step 3 is manual and cannot be automated from here; the setting lives in the
 Freemius developer dashboard.
@@ -193,4 +201,13 @@ header.
 
 ```
 https://cdn.jsdelivr.net/gh/21press/freemius-customizations@v11/account.js
+```
+
+## Checkout
+
+`checkout.css` is attached the same way and is currently empty apart from its
+header.
+
+```
+https://cdn.jsdelivr.net/gh/21press/freemius-customizations@v12/checkout.css
 ```
