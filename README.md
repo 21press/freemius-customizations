@@ -1,9 +1,10 @@
 # Freemius customizations
 
-Public CSS and JS for the 21Press Freemius store, checkout, and customer portal.
+Public CSS and JS for the deltatheme.com Freemius checkout and customer portal.
 
-The portal is embedded on <https://21press.com/account/> as a **cross-origin iframe**
-from `customers.freemius.com`. None of the site's own CSS reaches it, so this
+The portal is embedded on <https://deltatheme.com/account/> as a **cross-origin iframe**
+from `customers.freemius.com`. The checkout opens from
+<https://deltatheme.com/pricing/> as a Freemius dialog from `checkout.freemius.com`. None of the site's own CSS reaches it, so this
 repository is the only way to style it. Freemius loads these files inside the
 portal; you attach the URLs in the Freemius developer dashboard.
 
@@ -12,13 +13,13 @@ portal; you attach the URLs in the Freemius developer dashboard.
 Account CSS:
 
 ```
-https://cdn.jsdelivr.net/gh/21press/freemius-customizations@v11/account.css
+https://cdn.jsdelivr.net/gh/21press/freemius-customizations@v13/account.css
 ```
 
 Checkout CSS:
 
 ```
-https://cdn.jsdelivr.net/gh/21press/freemius-customizations@v12/checkout.css
+https://cdn.jsdelivr.net/gh/21press/freemius-customizations@v13/checkout.css
 ```
 
 **Use a tag, never `@main`.** A tagged URL is immutable, so jsDelivr caches it
@@ -31,9 +32,10 @@ tag exists.
 2. Create the next tag on that commit:
    ```
    gh api repos/21press/freemius-customizations/git/refs -X POST \
-     -f ref="refs/tags/v12" -f sha="$(gh api repos/21press/freemius-customizations/commits -q '.[0].sha')"
+     -f ref="refs/tags/v14" -f sha="$(gh api repos/21press/freemius-customizations/commits -q '.[0].sha')"
    ```
 3. Update the URL in the Freemius dashboard to the new tag. One character.
+   Account CSS and checkout CSS are two separate settings; update both.
 
 That step 3 is manual and cannot be automated from here; the setting lives in the
 Freemius developer dashboard.
@@ -57,7 +59,7 @@ cause is almost always a stale file rather than broken CSS. Compare sizes:
 
 ```
 gh api repos/21press/freemius-customizations/contents/account.css -q .size
-curl -s "https://cdn.jsdelivr.net/gh/21press/freemius-customizations@v11/account.css" | wc -c
+curl -s "https://cdn.jsdelivr.net/gh/21press/freemius-customizations@v13/account.css" | wc -c
 ```
 
 ## How to work on this file
@@ -165,26 +167,32 @@ not, the fight is specificity, not correctness.
   on the icon and the svg explicitly. Some Freemius icons are filled paths and
   some are stroked outlines, so forcing `fill` on a stroked icon renders a solid
   blob; keep `stroke` on any path that declares one.
-- Muted ink on a dark control reads as invisible rather than subtle. Icons that
-  sit inside a filled or circular control need full ink, not `ink-muted`.
+- Icons that sit inside a filled or circular control need full ink, not
+  `ink-muted`; muted ink on a control reads as missing rather than subtle.
 - The FAQ column divider is a `border-right` on `.faq--accordion > div > div`,
   shipped at `rgb(240,240,250)`.
 - Material separates FAQ panels with a `box-shadow`, not a border, so setting a
   border colour alone leaves the light seams visible.
-- The footer inherits its parent. Signed in that parent is dark and the band
-  looks fine; signed out it is white, so the footer must be targeted explicitly
-  or it appears as a white stripe under the login card.
+- The footer inherits its parent. Signed out that parent is white, so the
+  footer must be targeted explicitly or it appears as a white stripe under the
+  login card.
 
 ## Design tokens
 
-The `:root` block at the top of `account.css` mirrors the live Delta palette from
-the site's `tokens.json`. It is duplicated rather than referenced because the
-portal cannot see the site's stylesheets. **Keep it in step when the site palette
-changes**, including the alpha on `--p21-border`.
+The `:root` block at the top of `account.css` and `checkout.css` mirrors the live
+deltatheme.com palette. Read it from the Delta MCP with `delta/get-tokens`. It is
+duplicated rather than referenced because the portal and the checkout cannot see
+the site's stylesheets. **Keep both files in step when the site palette changes.**
 
-Fonts are served from the site's own Font Manager and are confirmed to load
-cross-origin from `customers.freemius.com`. If that ever changes, the stacks fall
-back to system sans and only the type changes, not the layout.
+The design is light (since October 2026): warm paper ground, dark ink, one dark
+action colour with a blue hover, 1.5px hairlines, no shadows. Status colours are
+too weak for text on the light ground, so states are carried by a tinted fill or
+a small dot and the text stays ink, as on the site.
+
+Fonts (Funnel Sans, Space Mono) are served from the site's Font Manager with
+`Access-Control-Allow-Origin: *` and are confirmed to load from both Freemius
+origins. If that ever changes, the stacks fall back to system sans and only the
+type changes, not the layout.
 
 ## Check these after any change
 
@@ -199,15 +207,22 @@ does not verify the other.
 `account.js` is attached the same way and is currently empty apart from its
 header.
 
-```
-https://cdn.jsdelivr.net/gh/21press/freemius-customizations@v11/account.js
-```
-
 ## Checkout
 
-`checkout.css` is attached the same way and is currently empty apart from its
-header.
+`checkout.css` works differently from `account.css`. The checkout is built on
+Freemius design-system variables (`--fs-ds-theme-*`) and loads this file after
+its own stylesheet, so most of the restyle is a `:root` block that re-points those
+variables at the site tokens. Its stylesheet is same-origin, so unlike the
+portal you can read its rules from the console to find the variable a part uses.
+
+Open it on its own to work on it:
 
 ```
-https://cdn.jsdelivr.net/gh/21press/freemius-customizations@v12/checkout.css
+https://checkout.freemius.com/product/35480/plan/58460/?billing_cycle=lifetime
 ```
+
+The card number, expiry and security code fields are Stripe iframes. Their text
+and placeholder colours belong to Stripe and cannot be set from here.
+
+The product image in the cart (the lime icon) is set in the Freemius dashboard,
+not in CSS.

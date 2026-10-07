@@ -1,101 +1,93 @@
 /**
- * Freemius store / account customizations for 21Press.
+ * Freemius store / account customizations for deltatheme.com.
  *
- * Public URL (attach this in Freemius):
- * https://cdn.jsdelivr.net/gh/21press/freemius-customizations@main/account.css
+ * Public URL (attach this in Freemius; always a tag, never @main):
+ * https://cdn.jsdelivr.net/gh/21press/freemius-customizations@<tag>/account.css
  *
- * The portal is embedded on https://21press.com/account/ as a cross-origin
+ * The portal is embedded on https://deltatheme.com/account/ as a cross-origin
  * iframe from customers.freemius.com, so none of the site's own CSS reaches it.
  * This file is the only way to style it, which is why the design tokens below
- * are duplicated rather than referenced. Keep them in step with tokens.json.
+ * are duplicated rather than referenced. Keep them in step with the site's
+ * tokens (Delta MCP: delta/get-tokens).
  *
  * The portal is an Angular Material application. Most of what follows overrides
  * Material theme rules, which are specific and shipped after this file, so the
  * colour and background declarations carry !important deliberately.
  *
- * VERIFIED against the signed-out view only. The authenticated screens
- * (licenses, subscriptions, invoices, downloads) could not be inspected without
- * signing in, so those rules target Material primitives defensively and should
- * be checked against a real account.
+ * Light theme, October 2026: warm paper ground, dark ink, one dark action
+ * colour with a blue hover, 1.5px hairlines, no shadows. Mirrors the site
+ * redesign of 3 Oct 2026.
  */
 
 /* ---------- Fonts ----------
-   Served from the site's own Font Manager. Confirmed to load cross-origin from
-   customers.freemius.com; if that ever changes, the stacks fall back to system
-   sans and only the type changes, not the layout. */
+   Served from the site's own Font Manager with Access-Control-Allow-Origin: *,
+   so they load cross-origin from customers.freemius.com. If that ever changes,
+   the stacks fall back to system sans and only the type changes, not the
+   layout. Funnel Sans is one variable file covering 300-800. */
 
 @font-face {
-  font-family: "Archivo";
-  src: url("https://21press.com/wp-content/uploads/21press-delta/fonts/archivo/archivo-400-normal.woff2") format("woff2");
+  font-family: "Funnel Sans";
+  src: url("https://deltatheme.com/wp-content/uploads/21press-delta/fonts/funnel-sans/funnel-sans-normal-300-800-latin-ext.woff2") format("woff2");
+  font-weight: 300 800;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: "Funnel Sans";
+  src: url("https://deltatheme.com/wp-content/uploads/21press-delta/fonts/funnel-sans/funnel-sans-normal-300-800-latin.woff2") format("woff2");
+  font-weight: 300 800;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: "Space Mono";
+  src: url("https://deltatheme.com/wp-content/uploads/21press-delta/fonts/space-mono/space-mono-normal-400-latin.woff2") format("woff2");
   font-weight: 400;
   font-style: normal;
   font-display: swap;
 }
 @font-face {
-  font-family: "Archivo";
-  src: url("https://21press.com/wp-content/uploads/21press-delta/fonts/archivo/archivo-500-normal.woff2") format("woff2");
-  font-weight: 500;
-  font-style: normal;
-  font-display: swap;
-}
-@font-face {
-  font-family: "Archivo";
-  src: url("https://21press.com/wp-content/uploads/21press-delta/fonts/archivo/archivo-600-normal.woff2") format("woff2");
-  font-weight: 600;
-  font-style: normal;
-  font-display: swap;
-}
-@font-face {
-  font-family: "Space Grotesk";
-  src: url("https://21press.com/wp-content/uploads/21press-delta/fonts/space-grotesk/space-grotesk-500-normal.woff2") format("woff2");
-  font-weight: 500;
-  font-style: normal;
-  font-display: swap;
-}
-@font-face {
-  font-family: "Space Grotesk";
-  src: url("https://21press.com/wp-content/uploads/21press-delta/fonts/space-grotesk/space-grotesk-600-normal.woff2") format("woff2");
-  font-weight: 600;
-  font-style: normal;
-  font-display: swap;
-}
-@font-face {
-  font-family: "JetBrains Mono";
-  src: url("https://21press.com/wp-content/uploads/21press-delta/fonts/jetbrains-mono/jetbrains-mono-400-normal.woff2") format("woff2");
-  font-weight: 400;
+  font-family: "Space Mono";
+  src: url("https://deltatheme.com/wp-content/uploads/21press-delta/fonts/space-mono/space-mono-normal-700-latin.woff2") format("woff2");
+  font-weight: 700;
   font-style: normal;
   font-display: swap;
 }
 
 /* ---------- Tokens ----------
-   Mirrors the live Delta palette. Semantic names, same as the site: each name
-   is a job, not a value. */
+   Mirrors the live deltatheme.com palette. Semantic names, same as the site:
+   each name is a job, not a value. */
 
 :root {
-  --p21-surface-body: #0E0C0A;
-  --p21-surface-subtle: #14110F;
-  --p21-surface-raised: #191614;
-  --p21-ink: #F6F4F1;
-  --p21-ink-muted: #9E9E9E;
-  --p21-border: #2A26216E;   /* carries alpha, same as the site token */
-  /* Input fields: one step lighter than a card so the box reads on both the
-     body ground and the subtle card ground, with a visible hairline. */
-  --p21-surface-field: #1C1815;
-  --p21-border-field: #33302B;
-  --p21-action: #A3E635;
-  --p21-action-hover: #8ECF00;
-  --p21-on-action: #0F1A00;
-  --p21-danger: #F87171;
-  --p21-success: #4ADE80;
-  --p21-success-bg: #10281A;
+  --delta-surface-body: #ECE7DD;
+  --delta-surface-subtle: #E4DED1;
+  --delta-surface-contrast: #15171B;
+  --delta-ink: #26292A;
+  --delta-ink-muted: #5E594F;
+  --delta-ink-on-contrast: #EDE8DD;
+  --delta-border: #D6D0C3;
+  --delta-action: #26292A;
+  --delta-action-hover: #2242C7;
+  --delta-on-action: #EDE8DD;
+  --delta-focus: #2242C7;
+  --delta-danger: #D45A2A;
+  --delta-danger-bg: color-mix(in oklch, #D45A2A 18%, #ECE7DD);
+  --delta-success: #2F8F86;
+  --delta-success-bg: color-mix(in oklch, #2F8F86 18%, #ECE7DD);
+  --delta-warning-bg: color-mix(in oklch, #CC9A1F 22%, #ECE7DD);
 
-  --p21-font-text: "Archivo", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
-  --p21-font-title: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
-  --p21-font-mono: "JetBrains Mono", ui-monospace, Menlo, monospace;
+  --delta-font-text: "Funnel Sans", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --delta-font-title: "Funnel Sans", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --delta-font-mono: "Space Mono", ui-monospace, "Cascadia Code", Menlo, monospace;
 
-  --p21-radius-md: 0.375rem;
-  --p21-radius-lg: 0.5rem;
-  --p21-radius-full: 9999px;
+  --delta-border-width: 1.5px;
+  --delta-radius-sm: 0.25rem;
+  --delta-radius-md: 0.5rem;
+  --delta-control-height: 2.75rem;
+  --delta-duration-fast: 150ms;
+  --delta-curve: cubic-bezier(0.2, 0, 0, 1);
 }
 
 /* ---------- Ground ---------- */
@@ -107,8 +99,8 @@ body,
 .mat-drawer-content,
 .mat-sidenav-container,
 .mat-drawer-container {
-  background: var(--p21-surface-body) !important;
-  color: var(--p21-ink) !important;
+  background: var(--delta-surface-body) !important;
+  color: var(--delta-ink) !important;
 }
 
 body,
@@ -117,8 +109,13 @@ input,
 button,
 select,
 textarea {
-  font-family: var(--p21-font-text) !important;
+  font-family: var(--delta-font-text) !important;
   -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+  background: var(--delta-ink);
+  color: var(--delta-on-action);
 }
 
 /* ---------- Type ---------- */
@@ -126,9 +123,9 @@ textarea {
 h1, h2, h3, h4,
 .mat-h1, .mat-h2, .mat-h3,
 .mat-headline, .mat-title, .mat-subheading-2 {
-  font-family: var(--p21-font-title) !important;
+  font-family: var(--delta-font-title) !important;
   font-weight: 600 !important;
-  color: var(--p21-ink) !important;
+  color: var(--delta-ink) !important;
   letter-spacing: -0.02em;
 }
 
@@ -137,28 +134,39 @@ li,
 .mat-body,
 .mat-body-1,
 .mat-caption {
-  color: var(--p21-ink-muted) !important;
+  color: var(--delta-ink-muted) !important;
 }
 
 code,
 kbd,
 .fs-license-key,
 [class*="license-key"] {
-  font-family: var(--p21-font-mono) !important;
+  font-family: var(--delta-font-mono) !important;
 }
 
+/* Links are ink with a quiet underline, blue on hover, as on the site. The
+   action colour is the same dark ink, so a link never reads as a second
+   accent. */
 a:not([class]),
-.mat-button:not(.mat-raised-button),
 a.link {
-  color: var(--p21-action) !important;
+  color: var(--delta-ink) !important;
+  text-decoration: underline;
+  text-decoration-thickness: var(--delta-border-width);
+  text-underline-offset: 0.2em;
+  text-decoration-color: var(--delta-border);
 }
-a:not([class]):hover {
-  color: var(--p21-action-hover) !important;
+a:not([class]):hover,
+a.link:hover {
+  color: var(--delta-action-hover) !important;
+  text-decoration-color: currentColor;
+}
+.mat-button:not(.mat-raised-button) {
+  color: var(--delta-ink) !important;
 }
 
 /* ---------- Surfaces ----------
-   Cards, panels, tables and dialogs on the signed-in screens. Written against
-   Material primitives because the authenticated markup was not inspectable. */
+   Cards sit on the same paper as the page and are drawn by a hairline, not a
+   fill or a shadow. surface-subtle is for bands and hovered rows only. */
 
 #form_container,
 .login__box,
@@ -169,13 +177,12 @@ a:not([class]):hover {
 .mat-select-panel,
 .mat-table,
 .mat-paginator,
-.mat-tab-body-content > *,
 [class*="__card"],
 [class*="__panel"] {
-  background: var(--p21-surface-subtle) !important;
-  color: var(--p21-ink) !important;
-  border: 1px solid var(--p21-border) !important;
-  border-radius: var(--p21-radius-lg) !important;
+  background: var(--delta-surface-body) !important;
+  color: var(--delta-ink) !important;
+  border: var(--delta-border-width) solid var(--delta-border) !important;
+  border-radius: var(--delta-radius-md) !important;
   box-shadow: none !important;
 }
 
@@ -184,36 +191,49 @@ a:not([class]):hover {
 .mat-cell,
 .mat-header-cell {
   background: transparent !important;
-  border-color: var(--p21-border) !important;
-  color: var(--p21-ink-muted) !important;
+  border-color: var(--delta-border) !important;
+  color: var(--delta-ink-muted) !important;
 }
+
+/* Column heads use the site's eyebrow: mono, small, uppercase, wide. */
 .mat-header-cell {
-  color: var(--p21-ink) !important;
-  font-family: var(--p21-font-title) !important;
-  font-weight: 500 !important;
+  color: var(--delta-ink) !important;
+  font-family: var(--delta-font-mono) !important;
+  font-size: 0.75rem !important;
+  font-weight: 400 !important;
+  letter-spacing: 0.06em !important;
+  text-transform: uppercase;
 }
 
 /* ---------- Form fields ----------
-   Fields are dark boxes one step up from the ground, with light ink. Material draws the label, the underline and the focus ripple as
-   separate parts; the underline and ripple are hidden because the box border
-   carries the focus state, and the global focus outline is switched off on
-   the input so there is one ring, not two. The ID prefixes are load-bearing:
-   the login form sits inside #form_container, the rest inside #app_container. */
+   Fields match the site's .field: paper ground, hairline border that turns to
+   ink on hover and focus, one control tall. Material draws the label, the
+   underline and the focus ripple as separate parts; the underline and ripple
+   are hidden because the box border carries the focus state, and the global
+   focus outline is switched off on the input so there is one ring, not two.
+   The ID prefixes are load-bearing: the login form sits inside
+   #form_container, the rest inside #app_container. */
 
 #app_container .mat-form-field-flex,
 #form_container .mat-form-field-flex {
-  background: var(--p21-surface-field) !important;
-  border: 1px solid var(--p21-border-field) !important;
-  border-radius: var(--p21-radius-md) !important;
+  background: var(--delta-surface-body) !important;
+  border: var(--delta-border-width) solid var(--delta-border) !important;
+  border-radius: var(--delta-radius-md) !important;
   padding: 0 0.75rem !important;
-  min-height: 2.75rem !important;   /* site --control-height */
+  min-height: var(--delta-control-height) !important;
   align-items: center !important;
   box-sizing: border-box !important;
-  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  transition: border-color var(--delta-duration-fast) var(--delta-curve);
 }
+#app_container .mat-form-field-flex:hover,
+#form_container .mat-form-field-flex:hover,
 #app_container .mat-form-field.mat-focused .mat-form-field-flex,
 #form_container .mat-form-field.mat-focused .mat-form-field-flex {
-  border-color: var(--p21-action) !important;
+  border-color: var(--delta-ink) !important;
+}
+#app_container .mat-form-field.mat-form-field-invalid .mat-form-field-flex,
+#form_container .mat-form-field.mat-form-field-invalid .mat-form-field-flex {
+  border-color: var(--delta-danger) !important;
 }
 #app_container .mat-form-field-underline,
 #app_container .mat-form-field-ripple,
@@ -317,8 +337,8 @@ a:not([class]):hover {
 #form_container .mat-form-field .mat-input-element,
 #app_container .mat-select-value,
 #app_container .mat-select-arrow {
-  color: var(--p21-ink) !important;
-  caret-color: var(--p21-ink) !important;
+  color: var(--delta-ink) !important;
+  caret-color: var(--delta-ink) !important;
 }
 #app_container .mat-form-field .mat-input-element:focus-visible,
 #form_container .mat-form-field .mat-input-element:focus-visible {
@@ -331,16 +351,17 @@ a:not([class]):hover {
 #form_container .mat-form-field-label,
 #app_container .mat-form-field.mat-focused .mat-form-field-label,
 #form_container .mat-form-field.mat-focused .mat-form-field-label {
-  color: var(--p21-ink-muted) !important;
+  color: var(--delta-ink-muted) !important;
   font-weight: 400 !important;
 }
 .mat-hint,
 .mat-form-field-hint-wrapper {
-  color: var(--p21-ink-muted) !important;
+  color: var(--delta-ink-muted) !important;
 }
 
-/* Prefix and suffix icons take the muted ink. The password eye is an icon button, which would otherwise
-   pick up the action colour meant for icon buttons on the dark ground. */
+/* Prefix and suffix icons take the muted ink. The password eye is an icon
+   button, which would otherwise pick up the hover colour meant for icon
+   buttons elsewhere. */
 #app_container .mat-form-field-prefix,
 #app_container .mat-form-field-suffix,
 #app_container .mat-form-field-prefix .fs-svg,
@@ -357,65 +378,70 @@ a:not([class]):hover {
 #form_container .mat-form-field-flex .mat-icon-button,
 #form_container .mat-form-field-flex .mat-icon-button .fs-svg,
 #form_container .mat-form-field-flex .mat-icon-button:hover .fs-svg {
-  color: var(--p21-ink-muted) !important;
-  fill: var(--p21-ink-muted) !important;
+  color: var(--delta-ink-muted) !important;
+  fill: var(--delta-ink-muted) !important;
 }
 
 .mat-input-element:-webkit-autofill,
 #app_container .mat-input-element:-webkit-autofill,
 #form_container .mat-input-element:-webkit-autofill {
-  -webkit-text-fill-color: var(--p21-ink) !important;
-  -webkit-box-shadow: 0 0 0 1000px var(--p21-surface-field) inset !important;
+  -webkit-text-fill-color: var(--delta-ink) !important;
+  -webkit-box-shadow: 0 0 0 1000px var(--delta-surface-body) inset !important;
 }
 
 .mat-error,
 .mat-form-field-invalid .mat-form-field-label {
-  color: var(--p21-danger) !important;
-}
-/* The required asterisk is the label's muted ink, not a colour of its own. */
-.mat-form-field-required-marker,
-.mat-placeholder-required {
-  color: var(--p21-ink-muted) !important;
+  color: var(--delta-danger) !important;
 }
 
 /* ---------- Buttons ----------
-   Matches the site's .btn: control radius (--radius-md), 0.85rem 1.35rem
-   padding, sm text, semibold, and the 10rem floor. */
+   Matches the site's .btn.btn--primary: one control tall, 18px label at
+   weight 500, control radius, dark fill with a light label, and a
+   colour-only hover to blue (no lift). */
 
 .mat-raised-button,
 .mat-flat-button,
 .mat-raised-button.mat-primary,
 .mat-flat-button.mat-primary,
 button.mat-raised-button.mat-primary {
-  background-color: var(--p21-action) !important;
-  color: var(--p21-on-action) !important;
-  font-family: var(--p21-font-text) !important;
-  font-size: 0.875rem !important;
-  font-weight: 600 !important;
-  line-height: 1.2 !important;
-  padding: 0.85rem 1.35rem !important;
-  min-width: 10rem;
-  border-radius: var(--p21-radius-md) !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 0.5rem;
+  background-color: var(--delta-action) !important;
+  color: var(--delta-on-action) !important;
+  font-family: var(--delta-font-text) !important;
+  font-size: 1.125rem !important;
+  font-weight: 500 !important;
+  line-height: 1 !important;
+  min-height: var(--delta-control-height) !important;
+  padding: 0 1rem !important;
+  border: var(--delta-border-width) solid transparent !important;
+  border-radius: var(--delta-radius-md) !important;
   box-shadow: none !important;
-  transition: background 0.15s ease, transform 0.2s ease;
+  transition: background-color var(--delta-duration-fast) var(--delta-curve), color var(--delta-duration-fast) var(--delta-curve);
 }
 .mat-raised-button:hover,
 .mat-flat-button:hover,
 .mat-raised-button.mat-primary:hover,
 .mat-flat-button.mat-primary:hover {
-  background-color: var(--p21-action-hover) !important;
-  transform: translateY(-1px);
+  background-color: var(--delta-action-hover) !important;
 }
 
+/* Secondary: outline in the current ink, blue on hover. */
 .mat-stroked-button {
-  border: 1px solid var(--p21-border) !important;
-  color: var(--p21-ink) !important;
-  border-radius: var(--p21-radius-md) !important;
+  background: transparent !important;
+  border: var(--delta-border-width) solid currentColor !important;
+  color: var(--delta-ink) !important;
+  border-radius: var(--delta-radius-md) !important;
+}
+.mat-stroked-button:hover {
+  color: var(--delta-action-hover) !important;
 }
 
 .mat-icon-button,
 .mat-icon {
-  color: var(--p21-ink-muted) !important;
+  color: var(--delta-ink-muted) !important;
 }
 
 /* Freemius icons are inline SVG painted with fill, not stroke, so colour alone
@@ -434,8 +460,8 @@ button.mat-raised-button.mat-primary {
 #app_container .mat-flat-button .fs-svg use,
 #app_container .mat-raised-button .mat-icon,
 #app_container .mat-flat-button .mat-icon {
-  color: var(--p21-on-action) !important;
-  fill: var(--p21-on-action) !important;
+  color: var(--delta-on-action) !important;
+  fill: var(--delta-on-action) !important;
 }
 
 /* An icon inside a filled button belongs to the button, not to the muted ink. */
@@ -446,59 +472,61 @@ button.mat-raised-button.mat-primary {
   color: inherit !important;
 }
 .mat-icon-button:hover .mat-icon {
-  color: var(--p21-action) !important;
+  color: var(--delta-action-hover) !important;
 }
 
 *:focus-visible {
-  outline: 2px solid var(--p21-action) !important;
+  outline: 2px solid var(--delta-focus) !important;
   outline-offset: 2px;
 }
 
-/* Buttons inside table cells (Downloads: Composer) have no room for the
-   10rem floor; the cell is about 130px, so the button spilled past it and
-   was clipped. Content width and tighter padding there. */
+/* Buttons inside table cells (Downloads: Composer) have no room for the full
+   control. Content width, the small control height and tighter type there. */
 #app_container .mat-cell .mat-raised-button,
 #app_container .mat-cell .mat-flat-button,
 #app_container .mat-cell .mat-button,
 #app_container .mat-cell .mat-stroked-button {
   min-width: 0 !important;
-  padding: 0.5rem 0.9rem !important;
+  min-height: 2.25rem !important;
+  padding: 0 0.75rem !important;
+  font-size: 0.875rem !important;
 }
 
 /* ---------- Checkbox ---------- */
 
 .mat-checkbox-frame {
-  border-color: var(--p21-border) !important;
-  border-radius: var(--p21-radius-md) !important;
+  border-color: var(--delta-ink-muted) !important;
+  border-width: var(--delta-border-width) !important;
+  border-radius: var(--delta-radius-sm) !important;
 }
 .mat-checkbox-checked .mat-checkbox-background,
 .mat-checkbox-indeterminate .mat-checkbox-background {
-  background-color: var(--p21-action) !important;
-  border-radius: var(--p21-radius-md) !important;
+  background-color: var(--delta-action) !important;
+  border-radius: var(--delta-radius-sm) !important;
 }
 .mat-checkbox-checkmark-path {
-  stroke: var(--p21-on-action) !important;
+  stroke: var(--delta-on-action) !important;
 }
 .mat-checkbox-label {
-  color: var(--p21-ink-muted) !important;
+  color: var(--delta-ink-muted) !important;
 }
 
-/* ---------- Status ---------- */
+/* ---------- Status ----------
+   On the light ground the status colours are too weak for text, so status
+   is carried by a tinted fill (see Badges) and the text stays ink. */
 
 [class*="status"][class*="active"],
-[class*="badge"][class*="success"] {
-  color: var(--p21-success) !important;
-}
+[class*="badge"][class*="success"],
 [class*="status"][class*="cancel"],
 [class*="status"][class*="expired"],
 [class*="badge"][class*="danger"] {
-  color: var(--p21-danger) !important;
+  color: var(--delta-ink) !important;
 }
 
 /* ---------- Login screen ---------- */
 
 .login__store-scope-note {
-  color: var(--p21-ink-muted) !important;
+  color: var(--delta-ink-muted) !important;
 }
 
 .fs-logo,
@@ -513,17 +541,17 @@ button.mat-raised-button.mat-primary {
 #poweredby,
 #terms,
 #terms a {
-  color: var(--p21-ink-muted) !important;
-  border-color: var(--p21-border) !important;
+  color: var(--delta-ink-muted) !important;
+  border-color: var(--delta-border) !important;
 }
 #footer a:hover {
-  color: var(--p21-action) !important;
+  color: var(--delta-action-hover) !important;
 }
 
 /* ---------- Scrollbars ---------- */
 
 * {
-  scrollbar-color: var(--p21-border) transparent;
+  scrollbar-color: var(--delta-border) transparent;
 }
 
 /* ==========================================================================
@@ -540,16 +568,17 @@ button.mat-raised-button.mat-primary {
 #app_container,
 #app_container .mat-sidenav-container,
 #app_container .mat-drawer-container {
-  background: var(--p21-surface-body) !important;
-  color: var(--p21-ink) !important;
+  background: var(--delta-surface-body) !important;
+  color: var(--delta-ink) !important;
 }
 
-/* Navigation rail */
+/* Navigation rail. Flat: the same paper as the content, divided by a
+   hairline. A second surface read as a panel rather than as navigation. */
 
 #app_container #sidenav_left,
 #app_container mat-sidenav#sidenav_left {
-  background: var(--p21-surface-subtle) !important;
-  border-right: 1px solid var(--p21-border) !important;
+  background: var(--delta-surface-body) !important;
+  border-right: var(--delta-border-width) solid var(--delta-border) !important;
 }
 
 #app_container #sidenav_left a.menu-item-link,
@@ -557,19 +586,19 @@ button.mat-raised-button.mat-primary {
 #app_container #sidenav_left a.menu-item-link.--active {
   background: transparent !important;
   background-color: transparent !important;
-  color: var(--p21-ink-muted) !important;
+  color: var(--delta-ink-muted) !important;
   border-left: 3px solid transparent !important;
   border-radius: 0 !important;
 }
 #app_container #sidenav_left a.menu-item-link:hover {
-  color: var(--p21-ink) !important;
+  color: var(--delta-action-hover) !important;
 }
 
 /* Current item carries a rule, not a fill, matching the docs sidebar on the
-   site. A filled pill here fought the teal and read as a second accent. */
+   site. */
 #app_container #sidenav_left a.menu-item-link.--active {
-  color: var(--p21-ink) !important;
-  border-left-color: var(--p21-action) !important;
+  color: var(--delta-ink) !important;
+  border-left-color: var(--delta-ink) !important;
 }
 #app_container #sidenav_left a.menu-item-link .mat-icon,
 #app_container #sidenav_left a.menu-item-link .fs-svg {
@@ -578,7 +607,7 @@ button.mat-raised-button.mat-primary {
 }
 #app_container #sidenav_left a.menu-item-link.--active .fs-svg,
 #app_container #sidenav_left a.menu-item-link.--active .mat-icon {
-  color: var(--p21-action) !important;
+  color: var(--delta-ink) !important;
 }
 
 /* Top bar */
@@ -587,16 +616,16 @@ button.mat-raised-button.mat-primary {
 #app_container .mat-toolbar,
 #app_container mat-toolbar-row,
 #app_container .mat-toolbar-row {
-  background: var(--p21-surface-body) !important;
-  color: var(--p21-ink) !important;
-  border-bottom: 1px solid var(--p21-border) !important;
+  background: var(--delta-surface-body) !important;
+  color: var(--delta-ink) !important;
+  border-bottom: var(--delta-border-width) solid var(--delta-border) !important;
 }
 #app_container mat-toolbar a,
 #app_container .mat-toolbar a {
-  color: var(--p21-ink-muted) !important;
+  color: var(--delta-ink-muted) !important;
 }
 #app_container .signout-label {
-  color: var(--p21-action) !important;
+  color: var(--delta-ink) !important;
 }
 
 /* Content surfaces. The card class appears in several combinations across the
@@ -609,31 +638,92 @@ button.mat-raised-button.mat-primary {
 #app_container .mat-drawer-content,
 #app_container mat-expansion-panel,
 #app_container .mat-expansion-panel {
-  background: var(--p21-surface-body) !important;
-  color: var(--p21-ink) !important;
-  border-color: var(--p21-border) !important;
+  background: var(--delta-surface-body) !important;
+  color: var(--delta-ink) !important;
+  border-color: var(--delta-border) !important;
   box-shadow: none !important;
 }
 
-/* Section headings inside cards ship a light band. Plain title instead:
-   no box, no border, a hairline under it like a site section head. */
-#app_container .content-card h2 {
-  background: transparent !important;
-  color: var(--p21-ink) !important;
-  border: 0 !important;
-  border-bottom: 1px solid var(--p21-border) !important;
-  border-radius: 0 !important;
-  padding: 0.5rem 0 !important;
-  font-size: 1.125rem !important;
+/* Freemius puts the content cards flush against the rail and the window
+   edge, so a table ran edge to edge. The content area gets inner padding
+   (space-xl top and bottom, space-lg to space-xl at the sides). */
+#app_container #main_content {
+  padding: 2rem clamp(1.5rem, 3vw, 2rem) !important;
+  box-sizing: border-box !important;
+}
+/* On table screens the inner container is absolutely positioned with a
+   pixel width written by script, so it ignores that padding and overflowed
+   the right edge. Its four edges are set to the same insets instead. */
+#app_container #main_content > * > mat-sidenav-container,
+#app_container #main_content > * > [style*="position: absolute"] {
+  position: absolute !important;
+  top: 2rem !important;
+  bottom: 2rem !important;
+  left: clamp(1.5rem, 3vw, 2rem) !important;
+  right: clamp(1.5rem, 3vw, 2rem) !important;
+  width: auto !important;
+  height: auto !important;
 }
 
-/* Sign out sits in the top bar. Its icon is a filled svg that inherited a
-   near-black fill and vanished on the dark ground; the lit box behind it was
-   the click overlay. */
+/* Scrolling cards (My Profile, FAQ, Support) ship 30px of their own padding,
+   which doubled up with the insets above. */
+#app_container #main_content .content-card.--scrollable {
+  padding: 0 !important;
+}
+
+/* Gaps. The filter bar (Licenses, Subscriptions) sat flush on the table and
+   was indented past it; table cells had no space between columns. */
+#app_container [id$="_filters"] {
+  margin-bottom: 1rem !important;
+  padding-inline: 0 !important;
+  gap: 0.75rem !important;
+  align-items: center !important;
+}
+#app_container .mat-cell,
+#app_container .mat-header-cell {
+  padding-inline: 0.75rem !important;
+}
+#app_container .mat-cell:first-of-type,
+#app_container .mat-header-cell:first-of-type {
+  padding-inline-start: 1.25rem !important;
+}
+#app_container .mat-cell:last-of-type,
+#app_container .mat-header-cell:last-of-type {
+  padding-inline-end: 1.25rem !important;
+}
+/* The ID column has a fixed width that the cell padding would clip. */
+#app_container .mat-column-id {
+  flex: 0 0 auto !important;
+  min-width: max-content !important;
+}
+
+/* Section headings inside cards ship a tinted band. Plain title instead:
+   no box, no rule under it. Space above separates sections; space below
+   ties the title to what it heads. */
+#app_container .content-card h2 {
+  background: transparent !important;
+  color: var(--delta-ink) !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  padding: 0 !important;
+  margin: 2rem 0 0.75rem !important;
+  font-size: 1.125rem !important;
+}
+/* The title at the top of each FAQ column starts flush. */
+#app_container .faq--accordion > div > div > h2:first-child {
+  margin-top: 0 !important;
+}
+
+/* Sign out sits in the top bar. Its icon is a filled svg; the lit box behind
+   it was the click overlay. */
 #app_container .signout-button .fs-svg,
 #app_container .signout-button .signout-icon svg {
   fill: currentColor !important;
-  color: var(--p21-action) !important;
+  color: var(--delta-ink) !important;
+}
+#app_container .signout-button:hover .signout-label,
+#app_container .signout-button:hover .fs-svg {
+  color: var(--delta-action-hover) !important;
 }
 #app_container .signout-button .mat-button-focus-overlay {
   display: none !important;
@@ -657,89 +747,120 @@ button.mat-raised-button.mat-primary {
 #app_container mat-row,
 #app_container .mat-row {
   background: transparent !important;
-  border-color: var(--p21-border) !important;
+  border-color: var(--delta-border) !important;
+}
+/* The last row's rule sat on the table's own border and read as a double
+   line. The table border closes the table. */
+#app_container .mat-row:last-of-type {
+  border-bottom: 0 !important;
+}
+#app_container .mat-row:hover {
+  background: var(--delta-surface-subtle) !important;
 }
 #app_container .mat-header-cell {
-  color: var(--p21-ink) !important;
-  font-family: var(--p21-font-title) !important;
+  color: var(--delta-ink) !important;
+  font-family: var(--delta-font-mono) !important;
+  font-size: 0.75rem !important;
+  letter-spacing: 0.06em !important;
+  text-transform: uppercase;
+}
+/* A sortable column head (Invoices: Date) wraps its label in a button, which
+   picked up the text face from the button rule. It follows the head. */
+#app_container .mat-header-cell button,
+#app_container .mat-header-cell .mat-sort-header-button {
+  font-family: var(--delta-font-mono) !important;
+  font-size: 0.75rem !important;
+  font-weight: 400 !important;
+  letter-spacing: 0.06em !important;
+  text-transform: uppercase !important;
+  color: var(--delta-ink) !important;
 }
 #app_container .mat-cell {
-  color: var(--p21-ink-muted) !important;
+  color: var(--delta-ink-muted) !important;
 }
 #app_container .mat-cell a,
 #app_container .mat-row a {
-  color: var(--p21-action) !important;
+  color: var(--delta-ink) !important;
+}
+#app_container .mat-cell a:hover,
+#app_container .mat-row a:hover {
+  color: var(--delta-action-hover) !important;
 }
 
 /* Inputs on the signed-in screens */
 
 #app_container .mat-form-field-underline,
 #app_container .mat-input-underline {
-  background-color: var(--p21-border) !important;
+  background-color: var(--delta-border) !important;
 }
 #app_container .mat-input-element,
 #app_container .mat-select-value-text,
 #app_container .mat-option {
-  color: var(--p21-ink) !important;
+  color: var(--delta-ink) !important;
 }
 
-/* Buttons. mat-warn is the destructive pink, and a disabled primary ships a
-   light grey that reads as a hole on a dark ground. */
+/* Buttons. A disabled primary keeps the button's shape but drops to the
+   subtle surface with muted ink. */
 
-#app_container button.mat-warn,
-#app_container .mat-button.mat-warn {
-  background: transparent !important;
-  color: var(--p21-danger) !important;
-  border: 1px solid var(--p21-danger) !important;
-  border-radius: var(--p21-radius-md) !important;
-}
 #app_container button[disabled],
 #app_container .mat-button-disabled {
-  background: var(--p21-surface-subtle) !important;
-  color: var(--p21-ink-muted) !important;
-  border: 1px solid var(--p21-border) !important;
+  background: var(--delta-surface-subtle) !important;
+  color: var(--delta-ink-muted) !important;
+  border: var(--delta-border-width) solid var(--delta-border) !important;
 }
 #app_container button.mat-primary-inverse {
   background: transparent !important;
-  color: var(--p21-action) !important;
+  color: var(--delta-ink) !important;
 }
+/* Material leaves .mat-button-focus-overlay painted on any button that has
+   been clicked or focused, which turned Copy, Show, Change Email and the
+   breadcrumb into grey chips. Buttons here signal hover by colour, as on the
+   site, so the overlay is removed everywhere. Keyboard focus keeps the ring. */
 #app_container .mat-button-focus-overlay {
-  background: var(--p21-action) !important;
-  opacity: 0.08 !important;
+  display: none !important;
 }
 
-/* Badges and inline code */
+/* Inline code */
 
-#app_container .label-success {
-  background: var(--p21-success-bg, #10281A) !important;
-  color: var(--p21-success) !important;
-  border-radius: var(--p21-radius-md) !important;
-}
 #app_container code {
-  background: var(--p21-surface-subtle) !important;
-  color: var(--p21-ink) !important;
-  font-family: var(--p21-font-mono) !important;
-  border: 1px solid var(--p21-border) !important;
-  border-radius: var(--p21-radius-md) !important;
+  background: var(--delta-surface-subtle) !important;
+  color: var(--delta-ink) !important;
+  font-family: var(--delta-font-mono) !important;
+  border: var(--delta-border-width) solid var(--delta-border) !important;
+  border-radius: var(--delta-radius-sm) !important;
 }
 
 /* Tooltips and menus float outside #app_container, so they are matched on
-   their own classes. */
-.mat-tooltip,
+   their own classes. Tooltips are the one inverted surface, as on the site. */
+.mat-tooltip {
+  background: var(--delta-surface-contrast) !important;
+  color: var(--delta-ink-on-contrast) !important;
+  border: 0 !important;
+  border-radius: var(--delta-radius-sm) !important;
+}
 .mat-menu-panel,
 .mat-select-panel,
 .mat-autocomplete-panel {
-  background: var(--p21-surface-subtle) !important;
-  color: var(--p21-ink) !important;
-  border: 1px solid var(--p21-border) !important;
+  background: var(--delta-surface-body) !important;
+  color: var(--delta-ink) !important;
+  border: var(--delta-border-width) solid var(--delta-border) !important;
+  border-radius: var(--delta-radius-md) !important;
+  box-shadow: none !important;
+}
+/* The list inside a select panel carries its own white ground. */
+.mat-select-content,
+.mat-menu-content {
+  background: transparent !important;
 }
 .mat-menu-item,
 .mat-option {
-  color: var(--p21-ink) !important;
+  color: var(--delta-ink) !important;
 }
 .mat-menu-item:hover,
-.mat-option:hover {
-  background: var(--p21-surface-body) !important;
+.mat-option:hover,
+.mat-option.mat-active,
+.mat-option.mat-selected {
+  background: var(--delta-surface-subtle) !important;
 }
 
 /* Buttons and field labels on the signed-in screens.
@@ -753,176 +874,240 @@ button.mat-raised-button.mat-primary {
 #app_container .mat-raised-button.mat-primary,
 #app_container .mat-flat-button.mat-primary,
 #app_container button.md-raised.mat-primary {
-  background-color: var(--p21-action) !important;
-  color: var(--p21-on-action) !important;
-  border-radius: var(--p21-radius-md) !important;
+  background-color: var(--delta-action) !important;
+  color: var(--delta-on-action) !important;
+  border-radius: var(--delta-radius-md) !important;
   box-shadow: none !important;
 }
 #app_container .mat-raised-button:hover,
 #app_container .mat-flat-button:hover {
-  background-color: var(--p21-action-hover) !important;
+  background-color: var(--delta-action-hover) !important;
 }
 
-/* Text buttons sit on the ground, not on a light chip. :not() keeps the filled
-   variants out, since they carry .mat-button as well. */
+/* Text buttons sit on the ground, not on a tinted chip. :not() keeps the
+   filled variants out, since they carry .mat-button as well. */
 #app_container .mat-button:not(.mat-raised-button):not(.mat-flat-button) {
   background: transparent !important;
   background-color: transparent !important;
-  color: var(--p21-action) !important;
+  color: var(--delta-ink) !important;
+}
+#app_container .mat-button:not(.mat-raised-button):not(.mat-flat-button):hover {
+  color: var(--delta-action-hover) !important;
 }
 
-/* Floating labels render near-black by default, which disappears on the dark
-   ground once a field has a value. */
 #app_container .mat-form-field-label,
 #app_container .mat-input-placeholder,
 #app_container .mat-form-field-placeholder,
 #app_container .mat-hint,
 #app_container .mat-form-field-hint-wrapper {
-  color: var(--p21-ink-muted) !important;
-}
-#app_container .mat-focused .mat-form-field-label {
-  color: var(--p21-action) !important;
-}
-#app_container .mat-form-field-required-marker {
-  color: var(--p21-danger) !important;
+  color: var(--delta-ink-muted) !important;
 }
 
 /* ---------- Corrections found by walking the signed-in screens ---------- */
 
-/* The nav rail looked washed because Material leaves .mat-button-focus-overlay
-   painted on items that have been clicked, and the global overlay tint was
-   applying at 8% teal to each of them. The rail is a list of links, not a set
-   of toggles, so no persistent fill belongs there. */
+/* Material leaves .mat-button-focus-overlay painted on items that have been
+   clicked. The rail is a list of links, not a set of toggles, so no
+   persistent fill belongs there. */
 #app_container #sidenav_left .mat-button-focus-overlay,
 #app_container #sidenav_left .mat-ripple-element {
   background: transparent !important;
   opacity: 0 !important;
 }
 
-/* Flat rail. A second surface next to the content read as a panel rather than
-   as navigation. */
-#app_container #sidenav_left,
-#app_container mat-sidenav#sidenav_left {
-  background: var(--p21-surface-body) !important;
-}
-
-/* Destructive actions use the accent, not the danger red. Nothing in this
-   portal is irreversible enough to earn red, and teal text inside a red
-   outline read as two signals disagreeing. */
+/* Destructive actions (mat-warn) use the secondary outline, not a red fill.
+   Nothing in this portal is irreversible enough to earn red. */
 #app_container button.mat-warn,
 #app_container .mat-button.mat-warn,
 #app_container .mat-button.mat-warn:not(.mat-raised-button) {
   background: transparent !important;
-  color: var(--p21-action) !important;
-  border: 1px solid var(--p21-action) !important;
-  border-radius: var(--p21-radius-md) !important;
+  color: var(--delta-ink) !important;
+  border: var(--delta-border-width) solid currentColor !important;
+  border-radius: var(--delta-radius-md) !important;
+}
+#app_container button.mat-warn:hover,
+#app_container .mat-button.mat-warn:hover {
+  color: var(--delta-action-hover) !important;
+}
+/* These sit beside a field (My Profile: Change Email, Change Password), so
+   they take the control height and the field's row agrees with them. */
+#app_container button.mat-warn {
+  display: inline-flex !important;
+  align-items: center !important;
+  min-height: var(--delta-control-height) !important;
+  padding: 0 1rem !important;
 }
 
 /* License key cell. Freemius renders the key in a white chip with its own copy
-   control, which was the brightest object on the page. */
+   control. It takes the subtle surface so it reads as a value, not a card. */
 #app_container .mat-column-license_key > div,
 #app_container .mat-cell.mat-column-license_key > div {
-  background: var(--p21-surface-subtle) !important;
-  border: 1px solid var(--p21-border) !important;
-  border-radius: var(--p21-radius-md) !important;
+  background: var(--delta-surface-subtle) !important;
+  border: var(--delta-border-width) solid var(--delta-border) !important;
+  border-radius: var(--delta-radius-sm) !important;
 }
 #app_container .mat-column-license_key input,
 #app_container .mat-column-license_key code {
   background: transparent !important;
-  color: var(--p21-ink) !important;
-  font-family: var(--p21-font-mono) !important;
+  color: var(--delta-ink) !important;
+  font-family: var(--delta-font-mono) !important;
   border: 0 !important;
-}
-#app_container .mat-column-license_key button,
-#app_container .mat-column-license_key .mat-icon-button {
-  background: transparent !important;
-  color: var(--p21-action) !important;
 }
 
 /* FAQ accordion. Material separates panels with a box-shadow rather than a
-   border, so setting a border colour alone left the light seams in place. */
+   border, so setting a border colour alone left the seams in place. */
 #app_container mat-expansion-panel,
 #app_container .mat-expansion-panel {
-  background: var(--p21-surface-subtle) !important;
-  border: 1px solid var(--p21-border) !important;
-  border-radius: var(--p21-radius-md) !important;
+  background: var(--delta-surface-body) !important;
+  border: var(--delta-border-width) solid var(--delta-border) !important;
+  border-radius: var(--delta-radius-md) !important;
   box-shadow: none !important;
+}
+/* Panels shipped flush, so neighbouring borders stacked into a heavy seam.
+   Each is its own box with an even gap. */
+#app_container .mat-expansion-panel,
+#app_container .mat-accordion .mat-expansion-panel {
+  margin: 0 0 0.5rem !important;
 }
 #app_container .mat-expansion-panel-header {
   background: transparent !important;
-  color: var(--p21-ink) !important;
+  color: var(--delta-ink) !important;
 }
 #app_container .mat-expansion-panel-header:hover,
 #app_container .mat-expansion-panel-header.mat-expanded {
-  background: var(--p21-surface-body) !important;
+  background: var(--delta-surface-subtle) !important;
 }
 #app_container .mat-expansion-panel-header-title,
 #app_container .mat-panel-title {
-  color: var(--p21-ink) !important;
+  color: var(--delta-ink) !important;
 }
 #app_container .mat-expansion-panel-body,
 #app_container .mat-expansion-panel-body p {
-  color: var(--p21-ink-muted) !important;
+  color: var(--delta-ink-muted) !important;
 }
 #app_container .mat-expansion-indicator::after {
-  color: var(--p21-ink-muted) !important;
-  border-color: var(--p21-ink-muted) !important;
+  color: var(--delta-ink) !important;
+  border-color: var(--delta-ink) !important;
+}
+
+/* Tabs (Earn: Programs & Terms). The tab strip ships white. It sits on the
+   paper with a hairline under it; the current tab is marked by an ink bar. */
+#app_container .mat-tab-header,
+#app_container .mat-tab-nav-bar {
+  background: transparent !important;
+  border-bottom: var(--delta-border-width) solid var(--delta-border) !important;
+}
+#app_container .mat-tab-label,
+#app_container .mat-tab-link {
+  color: var(--delta-ink-muted) !important;
+  opacity: 1 !important;
+}
+#app_container .mat-tab-label-active,
+#app_container .mat-tab-link.mat-tab-label-active {
+  color: var(--delta-ink) !important;
+}
+#app_container .mat-ink-bar {
+  background-color: var(--delta-ink) !important;
+}
+/* The active tab ships a stray 1px border on its right. */
+#app_container .mat-tab-label {
+  border: 0 !important;
+}
+
+/* ---------- Earn: affiliate program card ---------- */
+
+/* Freemius lays program cards out in three columns, so the one card was a
+   narrow third. Two columns, one under the md breakpoint, with a gap below
+   the tab strip. */
+#app_container .cards-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  gap: 1.5rem !important;
+  margin-top: 1.5rem !important;
+  padding: 0 !important;
+  border: 0 !important;
+}
+@media (max-width: 48rem) {
+  #app_container .cards-grid {
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+}
+
+/* The button keeps its own width instead of stretching across the card. */
+#app_container .cards-grid .mat-card button.mat-raised-button {
+  flex: 0 0 auto !important;
+  align-self: flex-start !important;
+  width: auto !important;
+}
+
+/* Check marks: Freemius' icon is swapped for the Tabler "check" icon
+   (MIT), drawn as a mask so it takes the ink colour. Inlined so the portal
+   loads nothing extra. */
+#app_container .cards-grid li {
+  display: flex !important;
+  align-items: flex-start !important;
+  gap: 0.5rem !important;
+}
+#app_container .cards-grid .list-icon {
+  flex: none !important;
+  width: 1.125rem !important;
+  height: 1.125rem !important;
+  margin: 0.15em 0 0 !important;
+  background-color: var(--delta-ink) !important;
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12l5 5l10 -10'/%3E%3C/svg%3E") center / contain no-repeat !important;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12l5 5l10 -10'/%3E%3C/svg%3E") center / contain no-repeat !important;
+}
+#app_container .cards-grid .list-icon svg {
+  display: none !important;
 }
 
 /* Every remaining rule and separator. */
 #app_container hr,
 #app_container .mat-divider,
 #app_container mat-divider {
-  border-color: var(--p21-border) !important;
-  background-color: var(--p21-border) !important;
+  border-color: var(--delta-border) !important;
+  background-color: var(--delta-border) !important;
 }
 
 /* ---------- Footer band ----------
    A single-ID `#footer` rule loses to Freemius, so the footer inherited
-   whatever sat behind it. In the signed-in view that parent is already dark
-   and the band looked fine; signed out, the parent is white and the band read
-   as a white stripe under the card. Both containers are matched by ID here so
-   the rule wins in either view. */
+   whatever sat behind it, and signed out that parent is white. Both
+   containers are matched by ID here so the rule wins in either view. */
 
 #app_container #footer,
 #main_content_container #footer,
 mat-sidenav-content#main_content_container > footer#footer {
-  background: var(--p21-surface-body) !important;
-  border-top: 1px solid var(--p21-border) !important;
-  color: var(--p21-ink-muted) !important;
+  background: var(--delta-surface-body) !important;
+  border-top: var(--delta-border-width) solid var(--delta-border) !important;
+  color: var(--delta-ink-muted) !important;
 }
 #app_container #footer a,
 #main_content_container #footer a {
-  color: var(--p21-ink-muted) !important;
+  color: var(--delta-ink-muted) !important;
 }
 #app_container #footer a:hover,
 #main_content_container #footer a:hover {
-  color: var(--p21-action) !important;
+  color: var(--delta-action-hover) !important;
 }
 
-/* The signed-out shell. #main_content_container is white before login, which
-   is what the footer was sitting on. */
+/* The signed-out shell. #main_content_container is white before login. */
 mat-sidenav-content#main_content_container,
 #app_container #main_content_container {
-  background: var(--p21-surface-body) !important;
+  background: var(--delta-surface-body) !important;
 }
 
 /* ---------- Separators and callouts ---------- */
 
-/* The FAQ column divider ships at rgb(240,240,250), which is a bright line on
-   a dark ground. */
+/* The FAQ column divider ships at rgb(240,240,250). */
 #app_container .faq--accordion > div > div {
-  border-right-color: var(--p21-border) !important;
+  border-right-color: var(--delta-border) !important;
 }
 
 /* Tip callouts carry a 5px indigo rule. */
 #app_container .callout,
 #app_container .callout-tip {
-  background: var(--p21-surface-subtle) !important;
-  border-left-color: var(--p21-action) !important;
-  color: var(--p21-ink-muted) !important;
+  background: var(--delta-surface-subtle) !important;
+  border-left-color: var(--delta-ink) !important;
+  color: var(--delta-ink-muted) !important;
 }
-
 
 /* The section-band treatment is scoped to cards only. A bare `#app_container h2`
    also caught the login form heading, which then rendered inside a bordered
@@ -948,29 +1133,33 @@ mat-sidenav-content#main_content_container,
 #app_container #main_content_container #main_content .mat-placeholder-required,
 #app_container #main_content_container .mat-form-field-required-marker,
 #app_container .mat-form-field-required-marker,
+#app_container #login #form .mat-form-field-required-marker,
 #form_container .mat-form-field-required-marker,
 #form .mat-form-field-required-marker,
 .login .mat-form-field-required-marker,
+.mat-form-field-required-marker,
+.mat-placeholder-required,
 #app_container .mat-placeholder-required,
 #main_content_container .mat-placeholder-required,
 #form_container .mat-placeholder-required,
 #login #form_container #form .mat-form-field-invalid .mat-form-field-required-marker,
 #login #form_container #form .mat-focused .mat-form-field-required-marker {
-  color: var(--p21-ink-muted) !important;
+  color: var(--delta-ink-muted) !important;
 }
 
 /* ---------- Freemius wordmark ----------
    The footer attribution is a data-URI SVG background on a.fs-logo, carrying
    its own brand colours (#6753FF, #902AF5, #E62A97 and a near-black wordmark).
    Because it is a background image rather than inline SVG, fill cannot reach
-   it; brightness(0) flattens it and invert(1) renders it white, so it sits
-   with the muted footer text instead of adding a third accent. */
+   it; brightness(0) flattens it to black and the opacity brings it down to
+   the muted footer ink, so it does not add a third accent. */
 
 #footer a.fs-logo,
 #app_container #footer a.fs-logo,
 #main_content_container #footer a.fs-logo,
 .login #footer a.fs-logo {
-  filter: brightness(0) invert(1) !important;
+  filter: brightness(0) !important;
+  opacity: 0.7;
 }
 
 /* ---------- Login form ----------
@@ -979,12 +1168,6 @@ mat-sidenav-content#main_content_container,
    `#login #form_container #form` won. Three IDs is the minimum here, so the
    chain below is not defensive padding. */
 
-#login #form_container #form .mat-form-field-required-marker,
-#login #form_container #form .mat-placeholder-required,
-#app_container #login #form .mat-form-field-required-marker {
-  color: var(--p21-danger) !important;
-}
-
 /* The envelope and padlock prefixes repeat what the labels already say. */
 #login #form_container #form .mat-form-field-prefix,
 #login #form_container #form .mat-input-prefix,
@@ -992,21 +1175,15 @@ mat-sidenav-content#main_content_container,
   display: none !important;
 }
 
-/* An invalid field is signalled by the rule under it. */
-#login #form_container #form .mat-form-field-invalid .mat-form-field-underline,
-#login #form_container #form .mat-form-field-invalid .mat-input-underline,
-#app_container .mat-form-field-invalid .mat-form-field-underline {
-  background-color: var(--p21-danger) !important;
-}
 #login #form_container #form .mat-error,
 #app_container .mat-error {
-  color: var(--p21-danger) !important;
+  color: var(--delta-danger) !important;
 }
 
 /* ---------- Focus ----------
    The global focus ring is right for buttons and links, but on a text input it
-   drew a box around a field that already shows focus through its underline.
-   The ring is removed for inputs only; everything else keeps it. */
+   drew a box around a field that already shows focus through its border. The
+   ring is removed for inputs only; everything else keeps it. */
 
 #app_container input:focus,
 #app_container input:focus-visible,
@@ -1038,17 +1215,18 @@ mat-sidenav-content#main_content_container,
    rule further up is still needed. Treat these as a base layer, not a
    replacement for the rules above.
 
-   --fs-ds-theme-accent is deliberately left alone: it is used as a background
-   for the active nav item, which is handled explicitly, and forcing it risks
-   painting text in a colour meant for a fill. */
+   --fs-ds-theme-accent is set to the subtle surface: it is the fill behind
+   the active nav item, which is handled explicitly, so the only job left for
+   it is any other highlight that reads it. */
 
 :root {
-  --fs-ds-theme-background: #0E0C0A !important;
-  --fs-ds-theme-foreground: #9E9E9E !important;
-  --fs-ds-theme-primary: #A3E635 !important;
-  --fs-ds-theme-border: #2A26216E !important;
-  --fs-ds-theme-warn: #F87171 !important;
-  --fs-ds-theme-primary-text: #A3E635 !important;
+  --fs-ds-theme-background: #ECE7DD !important;
+  --fs-ds-theme-foreground: #5E594F !important;
+  --fs-ds-theme-primary: #26292A !important;
+  --fs-ds-theme-accent: #E4DED1 !important;
+  --fs-ds-theme-border: #D6D0C3 !important;
+  --fs-ds-theme-warn: #D45A2A !important;
+  --fs-ds-theme-primary-text: #26292A !important;
 }
 
 /* The shell carries a margin that let the old lavender ground show as a band
@@ -1056,44 +1234,39 @@ mat-sidenav-content#main_content_container,
 #app_container .mat-sidenav-container,
 #app_container > div {
   margin: 0 !important;
-  background: var(--p21-surface-body) !important;
-}
-
-/* ---------- Table rows ---------- */
-
-/* Earlier this hid decorative glyphs in table cells, but the selectors also
-   caught the reveal and copy icons inside the license cell, leaving two empty
-   circles. Cell icons are left visible; only their container styling is
-   adjusted below. */
-
-/* Those controls were rendering as dark filled circles. Flatten them. */
-#app_container .mat-cell .mat-icon-button,
-#app_container .mat-column-license_key .mat-icon-button,
-#app_container .mat-column-license_key button {
-  background: transparent !important;
-  border: 0 !important;
-  box-shadow: none !important;
-  color: var(--p21-ink-muted) !important;
-}
-#app_container .mat-cell .mat-icon-button:hover,
-#app_container .mat-column-license_key button:hover {
-  color: var(--p21-action) !important;
+  background: var(--delta-surface-body) !important;
 }
 
 /* ---------- Badges ----------
-   Status pills shipped with vertical padding only, so the text met the edge. */
+   Status pills: a tinted fill carries the state and the text stays ink, as on
+   the site. Status colours are too weak for text on the light ground. */
 #app_container .label,
 #app_container .label-success,
 #app_container .label-warning,
 #app_container .label-danger,
 #app_container [class*="badge"] {
   display: inline-block !important;
-  padding: 0.15em 0.55em !important;
-  border-radius: var(--p21-radius-md) !important;
+  padding: 0.125rem 0.5rem !important;
+  border-radius: var(--delta-radius-sm) !important;
   line-height: 1.5 !important;
+  color: var(--delta-ink) !important;
+  background: var(--delta-surface-subtle) !important;
+  font-family: var(--delta-font-mono) !important;
+  font-size: 0.75rem !important;
+  letter-spacing: 0.06em !important;
+  text-transform: uppercase;
+}
+#app_container .label-success {
+  background: var(--delta-success-bg) !important;
+}
+#app_container .label-warning {
+  background: var(--delta-warning-bg) !important;
+}
+#app_container .label-danger {
+  background: var(--delta-danger-bg) !important;
 }
 
-/* ---------- License key controls ----------
+/* ---------- License key and table controls ----------
    Structure, from the live DOM:
 
      mat-cell.mat-column-license_key
@@ -1103,10 +1276,10 @@ mat-sidenav-content#main_content_container,
          > button        (copy)     > span > fs-icon > svg.fs-svg
 
    Three separate things were hiding these glyphs across earlier attempts: a
-   decorative-icon rule that also matched them, a button colour dark enough to
-   vanish against the circle behind it, and fill not inheriting because the SVG
-   sits two elements below the button. Everything they need is set explicitly
-   here rather than inherited, so none of those can recur. */
+   decorative-icon rule that also matched them, a button colour that vanished
+   against the circle behind it, and fill not inheriting because the SVG sits
+   two elements below the button. Everything they need is set explicitly here
+   rather than inherited, so none of those can recur. */
 
 #app_container .mat-column-license_key > div > button,
 #app_container .mat-column-license_key button,
@@ -1115,7 +1288,7 @@ mat-sidenav-content#main_content_container,
   background-color: transparent !important;
   border: 0 !important;
   box-shadow: none !important;
-  color: var(--p21-ink) !important;
+  color: var(--delta-ink) !important;
   opacity: 1 !important;
   visibility: visible !important;
 }
@@ -1127,7 +1300,7 @@ mat-sidenav-content#main_content_container,
   display: inline-flex !important;
   visibility: visible !important;
   opacity: 1 !important;
-  color: var(--p21-ink) !important;
+  color: var(--delta-ink) !important;
 }
 
 #app_container .mat-column-license_key button svg,
@@ -1139,7 +1312,7 @@ mat-sidenav-content#main_content_container,
   opacity: 1 !important;
   width: 1.1em !important;
   height: 1.1em !important;
-  color: var(--p21-ink) !important;
+  color: var(--delta-ink) !important;
   fill: currentColor !important;
 }
 
@@ -1152,13 +1325,15 @@ mat-sidenav-content#main_content_container,
 }
 
 #app_container .mat-column-license_key button:hover,
-#app_container .mat-cell .mat-icon-button:hover {
-  color: var(--p21-action) !important;
+#app_container .mat-cell .mat-icon-button:hover,
+#app_container .mat-column-license_key button:hover .fs-svg,
+#app_container .mat-cell .mat-icon-button:hover .fs-svg {
+  color: var(--delta-action-hover) !important;
 }
 
 /* A filled button inside a cell (Downloads: Composer) is the exception: its
-   icon takes the button ink, not the light table ink set above. Written after
-   and one class deeper so it wins. */
+   icon takes the button ink, not the table ink set above. Written after and
+   one class deeper so it wins. */
 #app_container .mat-cell button.mat-raised-button,
 #app_container .mat-cell button.mat-flat-button,
 #app_container .mat-cell button.mat-raised-button fs-icon,
@@ -1167,6 +1342,6 @@ mat-sidenav-content#main_content_container,
 #app_container .mat-cell button.mat-raised-button .fs-svg,
 #app_container .mat-cell button.mat-flat-button svg,
 #app_container .mat-cell button.mat-flat-button .fs-svg {
-  color: var(--p21-on-action) !important;
-  fill: var(--p21-on-action) !important;
+  color: var(--delta-on-action) !important;
+  fill: var(--delta-on-action) !important;
 }

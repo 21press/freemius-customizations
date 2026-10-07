@@ -1,6 +1,254 @@
 /**
- * Freemius checkout customizations for 21Press.
+ * Freemius checkout customizations for deltatheme.com.
  *
- * Public URL (attach this in Freemius):
- * https://cdn.jsdelivr.net/gh/21press/freemius-customizations@v12/checkout.css
+ * Public URL (attach this in Freemius; always a tag, never @main):
+ * https://cdn.jsdelivr.net/gh/21press/freemius-customizations@<tag>/checkout.css
+ *
+ * The checkout opens from https://deltatheme.com/pricing/ as a Freemius
+ * dialog (an iframe from checkout.freemius.com). Unlike the account portal,
+ * the checkout is built on Freemius design-system variables and loads this
+ * file after its own stylesheet, so most of the restyle is a :root block that
+ * re-points those variables at the site's tokens. A short list of rules
+ * follows for the parts the variables do not reach.
+ *
+ * The card number, expiry and security code fields are Stripe iframes. Their
+ * text and placeholder colours belong to Stripe and cannot be set from here;
+ * only the box around them is ours.
+ *
+ * Light theme, October 2026, matching the site redesign of 3 Oct 2026.
  */
+
+/* ---------- Fonts ----------
+   Same files as the site. Served with Access-Control-Allow-Origin: *, so they
+   load cross-origin. */
+
+@font-face {
+  font-family: "Funnel Sans";
+  src: url("https://deltatheme.com/wp-content/uploads/21press-delta/fonts/funnel-sans/funnel-sans-normal-300-800-latin-ext.woff2") format("woff2");
+  font-weight: 300 800;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: "Funnel Sans";
+  src: url("https://deltatheme.com/wp-content/uploads/21press-delta/fonts/funnel-sans/funnel-sans-normal-300-800-latin.woff2") format("woff2");
+  font-weight: 300 800;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: "Space Mono";
+  src: url("https://deltatheme.com/wp-content/uploads/21press-delta/fonts/space-mono/space-mono-normal-400-latin.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ---------- Site tokens ----------
+   Mirrors the live deltatheme.com palette (Delta MCP: delta/get-tokens). Keep
+   in step with account.css. */
+
+:root {
+  --delta-surface-body: #ECE7DD;
+  --delta-surface-subtle: #E4DED1;
+  --delta-surface-contrast: #15171B;
+  --delta-ink: #26292A;
+  --delta-ink-muted: #5E594F;
+  --delta-ink-on-contrast: #EDE8DD;
+  --delta-ink-muted-on-contrast: #B9B3A6;
+  --delta-border: #D6D0C3;
+  --delta-border-on-contrast: #33363C;
+  --delta-action: #26292A;
+  --delta-action-hover: #2242C7;
+  --delta-on-action: #EDE8DD;
+  --delta-focus: #2242C7;
+  --delta-danger: #D45A2A;
+  --delta-danger-bg: color-mix(in oklch, #D45A2A 18%, #ECE7DD);
+  --delta-success: #2F8F86;
+  --delta-success-bg: color-mix(in oklch, #2F8F86 18%, #ECE7DD);
+  --delta-warning: #CC9A1F;
+  --delta-warning-bg: color-mix(in oklch, #CC9A1F 22%, #ECE7DD);
+
+  --delta-font-text: "Funnel Sans", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --delta-font-mono: "Space Mono", ui-monospace, "Cascadia Code", Menlo, monospace;
+
+  --delta-border-width: 1.5px;
+  --delta-radius-sm: 0.25rem;
+  --delta-radius-md: 0.5rem;
+  --delta-control-height: 2.75rem;
+}
+
+/* ---------- Freemius design-system variables ----------
+   Their defaults are a white form, a light grey cart, a blue accent and a
+   dark slate footer. Each one is pointed at the site role that does the same
+   job. */
+
+:root {
+  /* Type */
+  --fs-ds-typography-font-base: var(--delta-font-text);
+  --fs-ds-typography-font-mono: var(--delta-font-mono);
+  --fs-ds-typography-font-weight-bold: 600;
+
+  /* Shape. The site uses one radius for controls and cards, and one
+     control height shared by buttons and fields. */
+  --fs-ds-appearance-border-radius: var(--delta-radius-md);
+  --fs-ds-appearance-border-radius-sm: var(--delta-radius-sm);
+  --fs-ds-appearance-border-radius-lg: var(--delta-radius-md);
+  --fs-ds-appearance-control-height: var(--delta-control-height);
+
+  /* Action. The site's one interactive colour is the dark ink; blue is the
+     hover, never a resting colour. */
+  --fs-ds-theme-primary-accent-color: var(--delta-action);
+  --fs-ds-theme-primary-accent-color-hover: var(--delta-action-hover);
+
+  /* Status */
+  --fs-ds-theme-primary-green-color: var(--delta-success);
+  --fs-ds-theme-primary-red-color: var(--delta-danger);
+  --fs-ds-theme-primary-yellow-color: var(--delta-warning);
+
+  /* Grounds. The form sits on the page paper; the cart column is the one
+     step-off surface; the footer is the page's single inverted band. */
+  --fs-ds-theme-background-color: var(--delta-surface-body);
+  --fs-ds-theme-background-shade: var(--delta-surface-subtle);
+  --fs-ds-theme-background-accented: var(--delta-border);
+  --fs-ds-theme-background-dark: var(--delta-surface-contrast);
+  --fs-ds-theme-background-darkest: var(--delta-surface-contrast);
+
+  /* Ink */
+  --fs-ds-theme-text-color: var(--delta-ink);
+  --fs-ds-theme-heading-text-color: var(--delta-ink);
+  --fs-ds-theme-muted-text-color: var(--delta-ink-muted);
+  --fs-ds-theme-dark-background-text-color: var(--delta-ink-on-contrast);
+  --fs-ds-theme-dark-background-muted-text-color: var(--delta-ink-muted-on-contrast);
+
+  /* Fields: paper ground, hairline that turns to ink on hover and focus. */
+  --fs-ds-theme-control-border-color: var(--delta-border);
+  --fs-ds-theme-control-border-hover-color: var(--delta-ink);
+  --fs-ds-theme-control-border-active-color: var(--delta-ink);
+  --fs-ds-theme-control-placeholder-color: var(--delta-ink-muted);
+  --fs-ds-theme-control-background-color: var(--delta-surface-body);
+  --fs-ds-theme-control-text-color: var(--delta-ink);
+  --fs-ds-theme-control-disabled-background-color: var(--delta-surface-subtle);
+  --fs-ds-theme-control-disabled-color: var(--delta-ink-muted);
+  --fs-ds-theme-control-readonly-background-color: var(--delta-surface-subtle);
+  --fs-ds-theme-control-readonly-color: var(--delta-ink-muted);
+  --fs-ds-theme-divider-color: var(--delta-border);
+
+  /* Secondary buttons (quantity, license selector) */
+  --fs-ds-theme-button-background-color: color-mix(in oklch, var(--delta-ink) 6%, transparent);
+  --fs-ds-theme-button-background-hover-color: color-mix(in oklch, var(--delta-ink) 10%, transparent);
+  --fs-ds-theme-button-background-active-color: color-mix(in oklch, var(--delta-ink) 14%, transparent);
+  --fs-ds-theme-button-text-color: var(--delta-ink);
+
+  /* Urgency text. Freemius ships it in red; on this site red means an error,
+     so it is ink. */
+  --fs-ds-theme-fomo-border-color: var(--delta-border);
+  --fs-ds-theme-fomo-text-color: var(--delta-ink);
+  --fs-ds-theme-fomo-icon-color: var(--delta-ink);
+
+  /* Notices: tinted fill carries the state, text stays ink, as on the site.
+     The status colours are too weak for text on the light ground. */
+  --fs-ds-theme-notice-warn-background: var(--delta-warning-bg);
+  --fs-ds-theme-notice-warn-color: var(--delta-ink);
+  --fs-ds-theme-notice-warn-border: var(--delta-warning);
+  --fs-ds-theme-notice-error-background: var(--delta-danger-bg);
+  --fs-ds-theme-notice-error-color: var(--delta-ink);
+  --fs-ds-theme-notice-error-border: var(--delta-danger);
+  --fs-ds-theme-notice-success-background: var(--delta-success-bg);
+  --fs-ds-theme-notice-success-color: var(--delta-ink);
+  --fs-ds-theme-notice-success-border: var(--delta-success);
+  --fs-ds-theme-notice-info-background: var(--delta-surface-subtle);
+  --fs-ds-theme-notice-info-color: var(--delta-ink);
+  --fs-ds-theme-notice-info-border: var(--delta-border);
+
+  /* Footer: the inverted band. */
+  --fs-ds-theme-footer-background-color: var(--delta-surface-contrast);
+  --fs-ds-theme-footer-text-color: var(--delta-ink-muted-on-contrast);
+  --fs-ds-theme-footer-control-border: var(--delta-border-on-contrast);
+  --fs-ds-theme-footer-control-border-hover: var(--delta-ink-on-contrast);
+  --fs-ds-theme-footer-control-border-focus: var(--delta-ink-on-contrast);
+  --fs-ds-theme-footer-link-color: var(--delta-ink-on-contrast);
+
+  /* Scrollbars */
+  --fs-ds-theme-scrollbar-background: var(--delta-surface-body);
+  --fs-ds-theme-scrollbar-thumb-background: var(--delta-border);
+  --fs-ds-theme-scrollbar-thumb-background-active: var(--delta-ink-muted);
+
+  /* Cart */
+  --fs-ds-theme-cart-header-background-color: var(--delta-surface-body);
+  --fs-ds-theme-cart-header-border-color: var(--delta-border);
+  --fs-ds-theme-cart-header-product-image-background-color: var(--delta-surface-subtle);
+  --fs-ds-theme-cart-header-footer-background-color: var(--delta-surface-subtle);
+
+  /* Badges, switch, upsell */
+  --fs-ds-theme-badge-color: var(--delta-ink);
+  --fs-ds-theme-badge-background-color: var(--delta-surface-subtle);
+  --fs-ds-theme-switch-background-color: var(--delta-surface-subtle);
+  --fs-ds-theme-switch-knob-color: var(--delta-surface-body);
+  --fs-ds-theme-switch-border-color: var(--delta-ink-muted);
+  --fs-ds-theme-upsell-text-color: var(--delta-ink-muted);
+  --fs-ds-theme-promotion-background-color: var(--delta-surface-subtle);
+}
+
+/* ---------- Rules the variables do not reach ---------- */
+
+/* Primary button: the site's .btn label, 18px at weight 500. Freemius keeps
+   its own 48px height, which is the site's large button. */
+button.fs-cta.fs-cta--appearance-primary,
+button.fs-cta.fs-cta--appearance-primary span {
+  font-family: var(--delta-font-text);
+  font-size: 1.125rem;
+  font-weight: 500;
+}
+
+/* Text links. With the accent re-pointed at ink, Freemius' link buttons
+   ("Have a promotional code?", "No thanks.") lost the only thing that marked
+   them as links. They take the site's link treatment: ink with a quiet
+   underline that goes blue on hover. The underline uses muted ink rather
+   than the site's border colour, because the border colour all but vanishes
+   on the cart column's subtle surface. */
+button.fs-button-link,
+button.fs-button-link span,
+a:not([class]),
+a.ng-scope {
+  text-decoration-line: underline;
+  text-decoration-thickness: var(--delta-border-width);
+  text-underline-offset: 0.2em;
+  text-decoration-color: var(--delta-ink-muted);
+}
+button.fs-button-link:hover,
+button.fs-button-link:hover span,
+a:not([class]):hover,
+a.ng-scope:hover {
+  color: var(--delta-action-hover);
+  text-decoration-color: currentColor;
+}
+
+/* Money-back badge. Its scalloped outline is drawn in a fixed light grey
+   (#E4E7EB) inside the SVG symbol, the same value as the cart surface, so it
+   vanished. Rules that match inside a <symbol> also paint its <use> copies. */
+#fs-icon-refund-badge path[fill="#E4E7EB"] {
+  fill: var(--delta-ink-muted);
+}
+
+/* Field messages ("24% VAT applied...", "Invalid email"). Status colours are
+   too weak for text on the light ground, so the message is ink and the state
+   is a danger dot in front of it, the same tone-dot pattern the site uses for
+   release labels. The field border still turns danger. */
+fs-input-control-error span,
+.fs-input-container__error-with-bottom-gutter {
+  color: var(--delta-ink);
+}
+fs-input-control-error span::before,
+.fs-input-container__error-with-bottom-gutter::before {
+  content: "";
+  display: inline-block;
+  width: 0.5em;
+  height: 0.5em;
+  margin-inline-end: 0.4em;
+  border-radius: 50%;
+  background: var(--delta-danger);
+  vertical-align: 0.05em;
+}

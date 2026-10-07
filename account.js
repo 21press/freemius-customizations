@@ -1,6 +1,6 @@
 /**
- * Freemius store / account customizations for 21Press.
+ * Freemius store / account customizations for deltatheme.com.
  *
- * Public URL (attach this in Freemius):
- * https://cdn.jsdelivr.net/gh/21press/freemius-customizations@main/account.js
+ * Public URL (attach this in Freemius; always a tag, never @main):
+ * https://cdn.jsdelivr.net/gh/21press/freemius-customizations@<tag>/account.js
  */
