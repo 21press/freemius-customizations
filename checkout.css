@@ -226,6 +226,27 @@ a.ng-scope:hover {
   text-decoration-color: currentColor;
 }
 
+/* Link buttons ship a line-height equal to the font size, so a label that
+   wraps ("Renewing or upgrading? Enter license key") stacked its two lines
+   with the underlines touching. */
+button.fs-button-link {
+  line-height: 1.5;
+}
+/* The muted variant is a sentence with one link inside it (<u>). Only that
+   part is underlined. */
+button.fs-button-link--muted,
+button.fs-button-link--muted span {
+  text-decoration-line: none;
+}
+button.fs-button-link--muted u {
+  text-decoration-thickness: var(--delta-border-width);
+  text-underline-offset: 0.2em;
+  text-decoration-color: var(--delta-ink-muted);
+}
+button.fs-button-link--muted:hover u {
+  text-decoration-color: currentColor;
+}
+
 /* Money-back badge. Its scalloped outline is drawn in a fixed light grey
    (#E4E7EB) inside the SVG symbol, the same value as the cart surface, so it
    vanished. Rules that match inside a <symbol> also paint its <use> copies. */

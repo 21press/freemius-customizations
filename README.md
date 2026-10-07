@@ -13,13 +13,13 @@ portal; you attach the URLs in the Freemius developer dashboard.
 Account CSS:
 
 ```
-https://cdn.jsdelivr.net/gh/21press/freemius-customizations@v13/account.css
+https://cdn.jsdelivr.net/gh/21press/freemius-customizations@v14/account.css
 ```
 
 Checkout CSS:
 
 ```
-https://cdn.jsdelivr.net/gh/21press/freemius-customizations@v13/checkout.css
+https://cdn.jsdelivr.net/gh/21press/freemius-customizations@v14/checkout.css
 ```
 
 **Use a tag, never `@main`.** A tagged URL is immutable, so jsDelivr caches it
@@ -32,7 +32,7 @@ tag exists.
 2. Create the next tag on that commit:
    ```
    gh api repos/21press/freemius-customizations/git/refs -X POST \
-     -f ref="refs/tags/v14" -f sha="$(gh api repos/21press/freemius-customizations/commits -q '.[0].sha')"
+     -f ref="refs/tags/v15" -f sha="$(gh api repos/21press/freemius-customizations/commits -q '.[0].sha')"
    ```
 3. Update the URL in the Freemius dashboard to the new tag. One character.
    Account CSS and checkout CSS are two separate settings; update both.
@@ -59,7 +59,7 @@ cause is almost always a stale file rather than broken CSS. Compare sizes:
 
 ```
 gh api repos/21press/freemius-customizations/contents/account.css -q .size
-curl -s "https://cdn.jsdelivr.net/gh/21press/freemius-customizations@v13/account.css" | wc -c
+curl -s "https://cdn.jsdelivr.net/gh/21press/freemius-customizations@v14/account.css" | wc -c
 ```
 
 ## How to work on this file
