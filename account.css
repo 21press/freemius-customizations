@@ -1184,6 +1184,16 @@ mat-sidenav-content#main_content_container,
   color: var(--delta-danger) !important;
 }
 
+/* Store name beside the logo at the top of the navigation rail
+   (header > b). It took a Freemius colour that no token reaches, which on
+   the dark ground was near-black. */
+#app_container header b,
+#app_container #sidenav_left header b {
+  color: var(--delta-ink) !important;
+  font-family: var(--delta-font-title) !important;
+  font-weight: 600 !important;
+}
+
 /* Sign-in error ("Invalid email address or password"). Freemius swaps the
    form's title for the message and fills that header with
    --fs-ds-theme-warn-background, a pink. It takes the site's danger tint
