@@ -1184,6 +1184,32 @@ mat-sidenav-content#main_content_container,
   color: var(--delta-danger) !important;
 }
 
+/* Sign-in error ("Invalid email address or password"). Freemius swaps the
+   form's title for the message and fills that header with
+   --fs-ds-theme-warn-background, a pink. It takes the site's danger tint
+   with ink text, and the message is set as text, not as a page title. The
+   variable is read at :root, so the dark tokens switch it too. */
+:root {
+  --fs-ds-theme-warn-background: var(--delta-danger-bg) !important;
+}
+#login #form_container #form header.md-warn {
+  background-color: var(--delta-danger-bg) !important;
+  border-radius: var(--delta-radius-md) !important;
+  padding: 0.75rem 1rem !important;
+}
+#login #form_container #form header.md-warn h2,
+#login #form_container #form header.md-warn h3,
+#login #form_container #form header.md-warn p,
+#login #form_container #form header.md-warn div {
+  color: var(--delta-ink) !important;
+  font-size: 1rem !important;
+  font-weight: 500 !important;
+  line-height: 1.5 !important;
+  letter-spacing: 0 !important;
+  margin: 0 !important;
+  text-align: left !important;
+}
+
 /* ---------- Focus ----------
    The global focus ring is right for buttons and links, but on a text input it
    drew a box around a field that already shows focus through its border. The
@@ -1438,8 +1464,17 @@ html[data-delta-theme="dark"] [class*="__panel"] {
   border-color: var(--delta-border-card) !important;
 }
 
+/* The content panels (My Profile, tables, FAQ, Support) fill the whole
+   content area, so a raised fill read as a second, boxed ground. They sit on
+   the page ground with the card hairline, as in the light theme. The tables
+   inside them follow. FAQ panels stay raised: they are separate cards. */
 html[data-delta-theme="dark"] #app_container .content-card,
 html[data-delta-theme="dark"] #app_container .table-container,
+html[data-delta-theme="dark"] #app_container .mat-table,
+html[data-delta-theme="dark"] #app_container .mat-paginator {
+  background: var(--delta-surface-body) !important;
+  border-color: var(--delta-border-card) !important;
+}
 html[data-delta-theme="dark"] #app_container mat-expansion-panel,
 html[data-delta-theme="dark"] #app_container .mat-expansion-panel {
   background: var(--delta-surface-raised) !important;
