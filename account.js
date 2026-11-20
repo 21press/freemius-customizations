@@ -38,7 +38,20 @@
   // Only inside the site's iframe. Opened on its own, the portal stays light.
   if (window.parent === window) return;
 
-  try { apply(sessionStorage.getItem(KEY)); } catch (e) {}
+  // The remembered theme is kept per parent site. Browsers share this storage
+  // between staging.deltatheme.com and deltatheme.com, so one key for both
+  // carried staging's dark into the live light site in the same tab.
+  var parentOrigin = '';
+  try {
+    parentOrigin = (location.ancestorOrigins && location.ancestorOrigins[0]) ||
+      (document.referrer ? new URL(document.referrer).origin : '');
+  } catch (e) {}
+  if (ORIGINS.indexOf(parentOrigin) === -1) parentOrigin = '';
+  KEY = KEY + ':' + parentOrigin;
+
+  if (parentOrigin) {
+    try { apply(sessionStorage.getItem(KEY)); } catch (e) {}
+  }
 
   window.addEventListener('message', function (e) {
     if (ORIGINS.indexOf(e.origin) === -1) return;

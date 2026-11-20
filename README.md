@@ -25,7 +25,7 @@ https://cdn.jsdelivr.net/gh/21press/freemius-customizations@v15/checkout.css
 Account JS (needed for the light/dark switch):
 
 ```
-https://cdn.jsdelivr.net/gh/21press/freemius-customizations@v15/account.js
+https://cdn.jsdelivr.net/gh/21press/freemius-customizations@v16/account.js
 ```
 
 ### Light and dark (site redesign, November 2026)
