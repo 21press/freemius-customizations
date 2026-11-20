@@ -13,13 +13,13 @@ portal; you attach the URLs in the Freemius developer dashboard.
 Account CSS:
 
 ```
-https://cdn.jsdelivr.net/gh/21press/freemius-customizations@v19/account.css
+https://cdn.jsdelivr.net/gh/21press/freemius-customizations@v20/account.css
 ```
 
 Checkout CSS:
 
 ```
-https://cdn.jsdelivr.net/gh/21press/freemius-customizations@v15/checkout.css
+https://cdn.jsdelivr.net/gh/21press/freemius-customizations@v15/checkout-dark.css
 ```
 
 Account JS (needed for the light/dark switch):
@@ -42,8 +42,8 @@ light site is unaffected until it gets that snippet with the redesign.
 **Checkout: one theme at a time.** The checkout takes a CSS file only, no
 script, and Freemius ships no dark hook, so it cannot follow the toggle.
 `checkout-dark.css` imports `checkout.css` from the same tag and switches the
-tokens to dark. Switch the checkout setting to it when the dark site launches;
-keep `checkout.css` until then.
+tokens to dark. The live checkout uses it since the dark launch (2026-11-20);
+`checkout.css` stays as the light fallback.
 
 **Use a tag, never `@main`.** A tagged URL is immutable, so jsDelivr caches it
 permanently and it can never serve a stale copy. This is the whole reason the
@@ -82,7 +82,7 @@ cause is almost always a stale file rather than broken CSS. Compare sizes:
 
 ```
 gh api repos/21press/freemius-customizations/contents/account.css -q .size
-curl -s "https://cdn.jsdelivr.net/gh/21press/freemius-customizations@v19/account.css" | wc -c
+curl -s "https://cdn.jsdelivr.net/gh/21press/freemius-customizations@v20/account.css" | wc -c
 ```
 
 ## How to work on this file

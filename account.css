@@ -340,6 +340,15 @@ a.link:hover {
   flex: 0 0 12rem !important;
   max-width: 100% !important;
 }
+/* Freemius also forces the select's own placeholder on, so the field label
+   drew the same words a few pixels off. The placeholder stays; the label goes. */
+#app_container .mat-form-field.downgrade-plan .mat-form-field-label-wrapper {
+  display: none !important;
+}
+#app_container .mat-form-field.downgrade-plan .mat-select-placeholder {
+  color: var(--delta-ink-muted) !important;
+  -webkit-text-fill-color: var(--delta-ink-muted) !important;
+}
 
 /* Ink inside the box */
 .mat-form-field,
