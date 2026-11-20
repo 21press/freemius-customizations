@@ -13,7 +13,7 @@ portal; you attach the URLs in the Freemius developer dashboard.
 Account CSS:
 
 ```
-https://cdn.jsdelivr.net/gh/21press/freemius-customizations@v18/account.css
+https://cdn.jsdelivr.net/gh/21press/freemius-customizations@v19/account.css
 ```
 
 Checkout CSS:
@@ -82,7 +82,7 @@ cause is almost always a stale file rather than broken CSS. Compare sizes:
 
 ```
 gh api repos/21press/freemius-customizations/contents/account.css -q .size
-curl -s "https://cdn.jsdelivr.net/gh/21press/freemius-customizations@v18/account.css" | wc -c
+curl -s "https://cdn.jsdelivr.net/gh/21press/freemius-customizations@v19/account.css" | wc -c
 ```
 
 ## How to work on this file

@@ -332,6 +332,15 @@ a.link:hover {
   display: none !important;
 }
 
+/* Licence drawer: Freemius fixes the "Downgrade to" select at 130px, which
+   is narrower than its label in the site font, so the box border ran through
+   the text and the arrow sat outside the box. */
+#app_container .mat-form-field.downgrade-plan {
+  width: 12rem !important;
+  flex: 0 0 12rem !important;
+  max-width: 100% !important;
+}
+
 /* Ink inside the box */
 .mat-form-field,
 .mat-input-element,
@@ -1267,6 +1276,9 @@ mat-sidenav-content#main_content_container,
   --fs-ds-theme-border: #D6D0C3 !important;
   --fs-ds-theme-warn: #D45A2A !important;
   --fs-ds-theme-primary-text: #26292A !important;
+  /* Fill of the table row whose details drawer is open (mat-row.selected,
+     set by Freemius with !important). Default is a pale blue. */
+  --fs-ds-theme-table-row-background: #E4DED1 !important;
 }
 
 /* The shell carries a margin that let the old lavender ground show as a band
@@ -1442,6 +1454,8 @@ html[data-delta-theme="dark"] {
   --fs-ds-theme-border: #33363C !important;
   --fs-ds-theme-warn: #D45A2A !important;
   --fs-ds-theme-primary-text: #EDE8DD !important;
+  /* The open row: one step above the hover fill. Default reads slate blue. */
+  --fs-ds-theme-table-row-background: color-mix(in oklch, #EDE8DD 9%, #15171B) !important;
 }
 
 /* ---------- Hover colour ----------
