@@ -16,7 +16,11 @@
  *
  * Light theme, October 2026: warm paper ground, dark ink, one dark action
  * colour with a blue hover, 1.5px hairlines, no shadows. Mirrors the site
- * redesign of 3 Oct 2026.
+ * redesign of 3 Oct 2026. This is the default.
+ *
+ * Dark theme, November 2026: at the end of the file, applied only when
+ * account.js sets data-delta-theme="dark" on <html> because the parent page
+ * asked for it (the site's light/dark toggle).
  */
 
 /* ---------- Fonts ----------
@@ -1344,4 +1348,256 @@ mat-sidenav-content#main_content_container,
 #app_container .mat-cell button.mat-flat-button .fs-svg {
   color: var(--delta-on-action) !important;
   fill: var(--delta-on-action) !important;
+}
+
+/* ==========================================================================
+   Dark theme (site redesign, November 2026)
+   ==========================================================================
+   Everything above is the light theme, and it stays the default: a page that
+   sends no theme (the live site before the redesign launches) keeps it.
+
+   The site's header toggle switches light and dark. The portal is a
+   cross-origin iframe, so it cannot see that toggle. account.js listens for a
+   message from the parent page and sets data-delta-theme="dark" on <html>;
+   the rules below apply only then. They re-point the tokens at the dark
+   palette and override the few rules that hold a fixed colour or shape, so
+   every structural fix above (ID prefixes, field layout, table insets, icon
+   rules) serves both themes.
+
+   Dark tokens mirror staging.deltatheme.com (Delta MCP: delta/get-tokens):
+   ground #15171B, cards a tone up (#1C1F24) with a 9% ink hairline, the
+   action colour is the ink (cream buttons, dark label, hover mixes the ink
+   85% into the ground, no blue), pill buttons except inside forms, ink focus
+   ring. The attribute adds specificity, so these rules win over the light
+   ones without changing their selectors. */
+
+/* ---------- Tokens ---------- */
+
+html[data-delta-theme="dark"] {
+  --delta-surface-body: #15171B;
+  --delta-surface-subtle: #191B20;
+  --delta-surface-raised: #1C1F24;
+  --delta-surface-sunken: #101216;
+  --delta-surface-contrast: #ECE7DD;
+  --delta-ink: #EDE8DD;
+  --delta-ink-muted: #B9B3A6;
+  --delta-ink-on-contrast: #26292A;
+  --delta-border: #33363C;
+  --delta-border-card: color-mix(in oklch, #EDE8DD 9%, transparent);
+  --delta-hover-fill: color-mix(in oklch, #EDE8DD 5%, transparent);
+  --delta-action: #EDE8DD;
+  --delta-action-hover: color-mix(in oklch, #EDE8DD 85%, #15171B);
+  --delta-on-action: #15171B;
+  --delta-focus: #EDE8DD;
+  --delta-danger: #D45A2A;
+  --delta-danger-bg: color-mix(in oklch, #D45A2A 18%, #15171B);
+  --delta-success: #2F8F86;
+  --delta-success-bg: color-mix(in oklch, #2F8F86 18%, #15171B);
+  --delta-warning-bg: color-mix(in oklch, #CC9A1F 22%, #15171B);
+  --delta-radius-full: 9999px;
+
+  color-scheme: dark;
+
+  /* Freemius' own theme variables (see account.css for their defaults). */
+  --fs-ds-theme-background: #15171B !important;
+  --fs-ds-theme-foreground: #B9B3A6 !important;
+  --fs-ds-theme-primary: #EDE8DD !important;
+  --fs-ds-theme-accent: #1C1F24 !important;
+  --fs-ds-theme-border: #33363C !important;
+  --fs-ds-theme-warn: #D45A2A !important;
+  --fs-ds-theme-primary-text: #EDE8DD !important;
+}
+
+/* ---------- Hover colour ----------
+   In the light file, text and icons turn blue on hover. Here the hover is the
+   softened ink, which on text reads as no change; links show hover through
+   the underline instead, which goes from the border colour to full ink. */
+
+html[data-delta-theme="dark"] a:not([class]):hover,
+html[data-delta-theme="dark"] a.link:hover {
+  color: var(--delta-ink) !important;
+}
+
+/* ---------- Cards ----------
+   On dark, a card is a tone up from the ground with a faint ink hairline, as
+   on the site. Same selectors as account.css, so these win by order. */
+
+html[data-delta-theme="dark"] #form_container,
+html[data-delta-theme="dark"] .login__box,
+html[data-delta-theme="dark"] .mat-card,
+html[data-delta-theme="dark"] .mat-expansion-panel,
+html[data-delta-theme="dark"] .mat-dialog-container,
+html[data-delta-theme="dark"] .mat-menu-panel,
+html[data-delta-theme="dark"] .mat-select-panel,
+html[data-delta-theme="dark"] .mat-autocomplete-panel,
+html[data-delta-theme="dark"] .mat-table,
+html[data-delta-theme="dark"] .mat-paginator,
+html[data-delta-theme="dark"] [class*="__card"],
+html[data-delta-theme="dark"] [class*="__panel"] {
+  background: var(--delta-surface-raised) !important;
+  border-color: var(--delta-border-card) !important;
+}
+
+html[data-delta-theme="dark"] #app_container .content-card,
+html[data-delta-theme="dark"] #app_container .table-container,
+html[data-delta-theme="dark"] #app_container mat-expansion-panel,
+html[data-delta-theme="dark"] #app_container .mat-expansion-panel {
+  background: var(--delta-surface-raised) !important;
+  border-color: var(--delta-border-card) !important;
+}
+
+/* Fields sit on the page ground, one step below the card they are in. */
+
+html[data-delta-theme="dark"] #app_container .mat-form-field-flex,
+html[data-delta-theme="dark"] #form_container .mat-form-field-flex {
+  background: var(--delta-surface-body) !important;
+}
+
+html[data-delta-theme="dark"] #app_container .mat-form-field-flex:hover,
+html[data-delta-theme="dark"] #form_container .mat-form-field-flex:hover,
+html[data-delta-theme="dark"] #app_container .mat-form-field.mat-focused .mat-form-field-flex,
+html[data-delta-theme="dark"] #form_container .mat-form-field.mat-focused .mat-form-field-flex {
+  border-color: var(--delta-ink) !important;
+}
+
+/* Hovered rows, open FAQ headers and menu items take a faint ink wash, which
+   reads on both the ground and a raised card. */
+
+html[data-delta-theme="dark"] #app_container .mat-row:hover,
+html[data-delta-theme="dark"] #app_container .mat-expansion-panel-header:hover,
+html[data-delta-theme="dark"] #app_container .mat-expansion-panel-header.mat-expanded,
+html[data-delta-theme="dark"] .mat-menu-item:hover,
+html[data-delta-theme="dark"] .mat-option:hover,
+html[data-delta-theme="dark"] .mat-option.mat-active,
+html[data-delta-theme="dark"] .mat-option.mat-selected {
+  background: var(--delta-hover-fill) !important;
+}
+
+/* Values (license key, inline code) sit one step below the page, like code
+   on the site. */
+
+html[data-delta-theme="dark"] #app_container code,
+html[data-delta-theme="dark"] #app_container .mat-column-license_key > div,
+html[data-delta-theme="dark"] #app_container .mat-cell.mat-column-license_key > div {
+  background: var(--delta-surface-sunken) !important;
+}
+
+html[data-delta-theme="dark"] #app_container .callout,
+html[data-delta-theme="dark"] #app_container .callout-tip {
+  background: var(--delta-surface-raised) !important;
+}
+
+/* ---------- Buttons ----------
+   Pills, as on the site. Hover softens the fill; the label keeps its colour. */
+
+html[data-delta-theme="dark"] .mat-raised-button,
+html[data-delta-theme="dark"] .mat-flat-button,
+html[data-delta-theme="dark"] .mat-raised-button.mat-primary,
+html[data-delta-theme="dark"] .mat-flat-button.mat-primary,
+html[data-delta-theme="dark"] button.mat-raised-button.mat-primary,
+html[data-delta-theme="dark"] .mat-stroked-button,
+html[data-delta-theme="dark"] #app_container .mat-raised-button,
+html[data-delta-theme="dark"] #app_container .mat-flat-button,
+html[data-delta-theme="dark"] #app_container .mat-raised-button.mat-primary,
+html[data-delta-theme="dark"] #app_container .mat-flat-button.mat-primary,
+html[data-delta-theme="dark"] #app_container button.md-raised.mat-primary {
+  border-radius: var(--delta-radius-full) !important;
+  padding: 0 1.25rem !important;
+}
+
+html[data-delta-theme="dark"] .mat-stroked-button:hover,
+html[data-delta-theme="dark"] #app_container .mat-button:not(.mat-raised-button):not(.mat-flat-button):hover,
+html[data-delta-theme="dark"] #app_container button.mat-warn:hover,
+html[data-delta-theme="dark"] #app_container .mat-button.mat-warn:hover {
+  color: var(--delta-ink) !important;
+  border-color: var(--delta-ink) !important;
+}
+
+html[data-delta-theme="dark"] .mat-stroked-button,
+html[data-delta-theme="dark"] #app_container button.mat-warn,
+html[data-delta-theme="dark"] #app_container .mat-button.mat-warn,
+html[data-delta-theme="dark"] #app_container .mat-button.mat-warn:not(.mat-raised-button) {
+  border-color: var(--delta-border) !important;
+}
+
+/* Inside a form a button takes the field radius, so it lines up with the
+   fields around it: the sign-in button, and the buttons beside the email and
+   password fields on My Profile. */
+
+html[data-delta-theme="dark"] #login #form_container #form button.mat-raised-button,
+html[data-delta-theme="dark"] #form_container button.mat-raised-button,
+html[data-delta-theme="dark"] #app_container button.mat-warn {
+  border-radius: var(--delta-radius-md) !important;
+}
+
+/* Icon hovers in tables and the top bar: the light file turns them blue. */
+
+html[data-delta-theme="dark"] .mat-icon-button:hover .mat-icon,
+html[data-delta-theme="dark"] #app_container #sidenav_left a.menu-item-link:hover,
+html[data-delta-theme="dark"] #app_container .signout-button:hover .signout-label,
+html[data-delta-theme="dark"] #app_container .signout-button:hover .fs-svg,
+html[data-delta-theme="dark"] #app_container .mat-cell a:hover,
+html[data-delta-theme="dark"] #app_container .mat-row a:hover,
+html[data-delta-theme="dark"] #app_container .mat-column-license_key button:hover,
+html[data-delta-theme="dark"] #app_container .mat-cell .mat-icon-button:hover,
+html[data-delta-theme="dark"] #app_container .mat-column-license_key button:hover .fs-svg,
+html[data-delta-theme="dark"] #app_container .mat-cell .mat-icon-button:hover .fs-svg,
+html[data-delta-theme="dark"] #footer a:hover,
+html[data-delta-theme="dark"] #app_container #footer a:hover,
+html[data-delta-theme="dark"] #main_content_container #footer a:hover {
+  color: var(--delta-ink) !important;
+}
+
+/* ---------- Field type and errors ----------
+   Material sets its own face on the form field, so labels showed in
+   Freemius' font. Error text: the danger colour measures 4.2:1 on a card,
+   under the 4.5:1 text minimum, so the message is ink and the state is a
+   danger dot in front of it, as in checkout.css. The field border still
+   turns danger. */
+
+html[data-delta-theme="dark"] .mat-form-field,
+html[data-delta-theme="dark"] .mat-checkbox,
+html[data-delta-theme="dark"] #app_container .mat-form-field,
+html[data-delta-theme="dark"] #form_container .mat-form-field {
+  font-family: var(--delta-font-text) !important;
+}
+
+html[data-delta-theme="dark"] .mat-error,
+html[data-delta-theme="dark"] #login #form_container #form .mat-error,
+html[data-delta-theme="dark"] #app_container .mat-error {
+  color: var(--delta-ink) !important;
+}
+
+html[data-delta-theme="dark"] .mat-error::before {
+  content: "";
+  display: inline-block;
+  width: 0.5em;
+  height: 0.5em;
+  margin-inline-end: 0.4em;
+  border-radius: 50%;
+  background: var(--delta-danger);
+  vertical-align: 0.05em;
+}
+
+html[data-delta-theme="dark"] #login #form_container #form .mat-form-field-invalid .mat-form-field-label,
+html[data-delta-theme="dark"] .mat-form-field-invalid .mat-form-field-label {
+  color: var(--delta-ink-muted) !important;
+}
+
+/* ---------- Freemius wordmark ----------
+   The light file flattens the wordmark to black. On dark it is flattened to
+   white instead, at the same quiet opacity. */
+
+html[data-delta-theme="dark"] #footer a.fs-logo,
+html[data-delta-theme="dark"] #app_container #footer a.fs-logo,
+html[data-delta-theme="dark"] #main_content_container #footer a.fs-logo,
+html[data-delta-theme="dark"] .login #footer a.fs-logo {
+  filter: brightness(0) invert(1) !important;
+  opacity: 0.6;
+}
+
+/* ---------- Scrollbars ---------- */
+
+html[data-delta-theme="dark"] * {
+  scrollbar-color: var(--delta-border) transparent;
 }

@@ -13,14 +13,37 @@ portal; you attach the URLs in the Freemius developer dashboard.
 Account CSS:
 
 ```
-https://cdn.jsdelivr.net/gh/21press/freemius-customizations@v14/account.css
+https://cdn.jsdelivr.net/gh/21press/freemius-customizations@v15/account.css
 ```
 
 Checkout CSS:
 
 ```
-https://cdn.jsdelivr.net/gh/21press/freemius-customizations@v14/checkout.css
+https://cdn.jsdelivr.net/gh/21press/freemius-customizations@v15/checkout.css
 ```
+
+Account JS (needed for the light/dark switch):
+
+```
+https://cdn.jsdelivr.net/gh/21press/freemius-customizations@v15/account.js
+```
+
+### Light and dark (site redesign, November 2026)
+
+**Portal: follows the site's toggle.** `account.css` holds both themes. Light
+is the default; the dark block at the end applies only when `<html>` carries
+`data-delta-theme="dark"`. `account.js` sets that attribute when the parent page
+sends `{ delta: "theme", theme: "dark" }` with postMessage, and accepts it only
+from deltatheme.com, www.deltatheme.com and staging.deltatheme.com. The site
+half is `site-theme-bridge.js`: it lives on the site (the /account/ page or
+site.js), not in Freemius. With no message the portal stays light, so the live
+light site is unaffected until it gets that snippet with the redesign.
+
+**Checkout: one theme at a time.** The checkout takes a CSS file only, no
+script, and Freemius ships no dark hook, so it cannot follow the toggle.
+`checkout-dark.css` imports `checkout.css` from the same tag and switches the
+tokens to dark. Switch the checkout setting to it when the dark site launches;
+keep `checkout.css` until then.
 
 **Use a tag, never `@main`.** A tagged URL is immutable, so jsDelivr caches it
 permanently and it can never serve a stale copy. This is the whole reason the
@@ -59,7 +82,7 @@ cause is almost always a stale file rather than broken CSS. Compare sizes:
 
 ```
 gh api repos/21press/freemius-customizations/contents/account.css -q .size
-curl -s "https://cdn.jsdelivr.net/gh/21press/freemius-customizations@v14/account.css" | wc -c
+curl -s "https://cdn.jsdelivr.net/gh/21press/freemius-customizations@v15/account.css" | wc -c
 ```
 
 ## How to work on this file
@@ -204,8 +227,9 @@ does not verify the other.
 
 ## JS
 
-`account.js` is attached the same way and is currently empty apart from its
-header.
+`account.js` is attached the same way, in the Freemius store settings. It holds
+the theme bridge described above. Freemius only loads it inside the portal
+when its URL is set; check for it in the portal's `<script>` tags.
 
 ## Checkout
 

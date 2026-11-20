@@ -1,0 +1,71 @@
+/**
+ * Freemius checkout, DARK theme for deltatheme.com (redesign, Nov 2026).
+ *
+ * Public URL (attach this in Freemius; always a tag, never @main):
+ * https://cdn.jsdelivr.net/gh/21press/freemius-customizations@<tag>/checkout-dark.css
+ *
+ * A layer on top of checkout.css: it imports the light file from the same tag,
+ * then re-points the site tokens at the dark palette. The Freemius variables
+ * in checkout.css read those tokens, so most of the switch happens there.
+ * The rules below cover what holds a fixed colour or shape.
+ *
+ * Dark tokens mirror staging.deltatheme.com (Delta MCP: delta/get-tokens).
+ */
+
+@import url("checkout.css");
+
+:root {
+  --delta-surface-body: #15171B;
+  --delta-surface-subtle: #1C1F24;
+  --delta-surface-sunken: #101216;
+  --delta-surface-contrast: #101216;
+  --delta-ink: #EDE8DD;
+  --delta-ink-muted: #B9B3A6;
+  --delta-ink-on-contrast: #EDE8DD;
+  --delta-ink-muted-on-contrast: #B9B3A6;
+  --delta-border: #33363C;
+  --delta-border-on-contrast: #33363C;
+  --delta-action: #EDE8DD;
+  --delta-action-hover: color-mix(in oklch, #EDE8DD 85%, #15171B);
+  --delta-on-action: #15171B;
+  --delta-focus: #EDE8DD;
+  --delta-danger: #D45A2A;
+  --delta-danger-bg: color-mix(in oklch, #D45A2A 18%, #15171B);
+  --delta-success: #2F8F86;
+  --delta-success-bg: color-mix(in oklch, #2F8F86 18%, #15171B);
+  --delta-warning: #CC9A1F;
+  --delta-warning-bg: color-mix(in oklch, #CC9A1F 22%, #15171B);
+  --delta-radius-full: 9999px;
+
+  color-scheme: dark;
+
+  /* The "Unlimited" switch: with the light mapping the track and knob were
+     both near the ground and the switch vanished. */
+  --fs-ds-theme-switch-background-color: var(--delta-border);
+  --fs-ds-theme-switch-knob-color: var(--delta-ink-muted);
+}
+
+/* The footer was the light page's one inverted band. On dark the site's
+   contrast surface is cream, which would put a bright stripe under a dark
+   form, so the footer steps down to the sunken ground instead (set through
+   --delta-surface-contrast above). */
+
+/* Primary button. Freemius paints its label with the "text on dark
+   background" variable, which is the footer's light ink here, so the label
+   would vanish on the cream fill. It takes the on-action ink explicitly.
+   The button keeps the field radius: the checkout is a form, and on the site
+   a button inside a form matches its fields. */
+button.fs-cta.fs-cta--appearance-primary:not(:disabled),
+button.fs-cta.fs-cta--appearance-primary:not(:disabled) span,
+button.fs-cta:disabled.fs-cta--appearance-primary,
+button.fs-cta:disabled.fs-cta--appearance-primary span {
+  color: var(--delta-on-action);
+}
+
+/* Text links go from muted underline to full ink on hover, not blue. */
+button.fs-button-link:hover,
+button.fs-button-link:hover span,
+a:not([class]):hover,
+a.ng-scope:hover {
+  color: var(--delta-ink);
+}
